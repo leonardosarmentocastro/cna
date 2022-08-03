@@ -1,0 +1,6 @@
+# Mandatory
+ERROR_DOCUMENT_NOT_FOUND: Document for id "{id}" was not found.
+ERROR_UNEXPECTED: Sorry, an unexpected error has occurred.
+
+# Optional
+VALIDATOR_ERROR_FIELD_IS_REQUIRED: The field "{field}" is required. # NOTE: this translation key is set due to `const { isRequiredValidator } = @leonardosarmentocastro/validate` being used on functional tests.

@@ -1,0 +1,38 @@
+{
+  "name": "@leonardosarmentocastro/server",
+  "version": "0.0.2",
+  "description": "minimal production server",
+  "main": "src/server.js",
+  "np": {
+    "branch": "main",
+    "yarn": false,
+    "2fa": false
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "npm run test:unit && npm run test:functional",
+    "test:functional": "ava **/functional/**/*.test.js --verbose --serial",
+    "test:unit": "ava **/unit/**/*.test.js --verbose"
+  },
+  "keywords": [
+    "minimal",
+    "production",
+    "server"
+  ],
+  "author": "leonardo.sarmentocastro",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "6.5.0"
+  },
+  "devDependencies": {
+    "ava": "^4.3.1",
+    "got": "^11.8.2"
+  },
+  "peerDependencies": {
+    "mongoose": "6.5.0"
+  }
+}

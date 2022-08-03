@@ -1,0 +1,37 @@
+{
+  "name": "@leonardosarmentocastro/crud",
+  "version": "0.0.5",
+  "description": "crud",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "database:start": "docker-compose stop database && docker-compose up -d database",
+    "test": "npm run database:start && npm run test:functional",
+    "test:functional": "MONGODB_DATABASE_NAME=db-test MONGODB_HOST=0.0.0.0 ava **/functional/**/*.test.js --verbose --serial"
+  },
+  "keywords": [
+    "crud",
+    "mongoose"
+  ],
+  "author": "leonardosarmentocastro",
+  "license": "ISC",
+  "dependencies": {
+    "@leonardosarmentocastro/database": "*",
+    "@leonardosarmentocastro/i18n": "*",
+    "@leonardosarmentocastro/pagination": "*",
+    "@leonardosarmentocastro/server": "*",
+    "@leonardosarmentocastro/validate": "*",
+    "mongoose": "6.5.0",
+    "validator": "^13.6.0"
+  },
+  "peerDependencies": {
+    "mongoose": "^6.5.0",
+    "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "ava": "^4.3.1",
+    "got": "^11.8.2"
+  }
+}

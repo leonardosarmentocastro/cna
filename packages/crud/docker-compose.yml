@@ -1,0 +1,16 @@
+version: '3'
+services:
+  database:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    # MongoDB uses "/data/db" folder internally to stores its information.
+    # We will map it to virtual volume named "database-data", a folder under "/var/lib/docker/volumes"
+    # where Docker not gonna have permission issues for reading/writing data.
+    # https://stackoverflow.com/questions/61147270/docker-compose-and-mongodb-failed-to-start-up-wiredtiger-under-any-compatibilit
+    volumes:
+      - database-data:/data/db
+# Named volumes used by different services (follows the syntax "[SOURCE:]TARGET[:MODE]").
+# As no TARGET is being set, a default value pointing to "/var/lib/docker/volumes" will be used.
+volumes:
+  database-data:

@@ -1,0 +1,18 @@
+# Test files/folders
+**/__tests__
+**/__helpers__
+**/__fixtures__
+
+# Folders
+examples/
+documentation/
+coverage/
+translations/
+
+# Files
+contributing.md
+docker-compose.yml
+package-lock.json
+.travis.yml
+.gitignore
+.np-config.json

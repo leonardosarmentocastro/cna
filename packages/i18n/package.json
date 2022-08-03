@@ -1,0 +1,33 @@
+{
+  "name": "@leonardosarmentocastro/i18n",
+  "version": "0.0.1",
+  "description": "support content translation using .yml",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "npm run test:unit",
+    "test:unit": "ava **/unit/**/*.test.js --verbose"
+  },
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "translate",
+    "yml"
+  ],
+  "author": "leonardosarmentocastro",
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^4.3.1"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "locale": "^0.1.0",
+    "messageformat": "^2.3.0",
+    "mongoose": "^6.5.0"
+  },
+  "peerDependencies": {
+    "mongoose": "6.5.0"
+  }
+}

@@ -1,0 +1,13 @@
+# Code coverage
+.nyc_output
+coverage/
+
+# Files
+.DS_Store
+the-owl**.tgz
+
+# Folders
+node_modules/
+.cache/
+./docs/
+./dist/

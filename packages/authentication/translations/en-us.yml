@@ -1,0 +1,9 @@
+AUTHENTICATION_ERROR_EMAIL_NOT_FOUND: Authentication failed as no user is registered with the provided email.
+AUTHENTICATION_ERROR_PASSWORD_MISMATCH: Authentication failed as the provided password mismatches user's password.
+AUTHENTICATION_ERROR_TOKEN_EXPIRED: Authentication failed as token is expired.
+AUTHENTICATION_ERROR_TOKEN_INVALID: Authentication failed as token is invalid.
+AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Authentication failed as token is still not allowed to be used.
+
+# @leonardosarmentocastro/validate
+VALIDATOR_ERROR_PASSWORD_NOT_STRONG: Password is not strong enough.
+VALIDATOR_ERROR_FIELD_IS_REQUIRED: The field "{field}" is required.

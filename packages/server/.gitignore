@@ -1,0 +1,7 @@
+.nyc_output/
+node_modules/
+coverage/
+
+# Files
+.env
+.DS_Store

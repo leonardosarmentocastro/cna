@@ -1,0 +1,9 @@
+AUTHENTICATION_ERROR_EMAIL_NOT_FOUND: Autenticação falhou pois não há nenhum usuário registrado com este email.
+AUTHENTICATION_ERROR_PASSWORD_MISMATCH: Autenticação falhou pois a senha fornecida não corresponde a senha do usuário.
+AUTHENTICATION_ERROR_TOKEN_EXPIRED: Autenticação falhou pois o token está expirado.
+AUTHENTICATION_ERROR_TOKEN_INVALID: Autenticação falhou pois o token é inválido.
+AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Autenticação falhou pois o token ainda não pode ser usado.
+
+# @leonardosarmentocastro/validate
+VALIDATOR_ERROR_PASSWORD_NOT_STRONG: Senha não é forte o bastante.
+VALIDATOR_ERROR_FIELD_IS_REQUIRED: O campo "{field}" é mandatório.

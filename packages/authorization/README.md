@@ -1,0 +1,1 @@
+esse código estava na pasta `src/shared/authorization` do `create-nodejs-app`.

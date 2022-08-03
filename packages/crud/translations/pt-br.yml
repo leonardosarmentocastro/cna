@@ -1,0 +1,6 @@
+# Mandatory
+ERROR_DOCUMENT_NOT_FOUND: Documento para id "{id}" não foi encontrado.
+ERROR_UNEXPECTED: Desculpe, ocorreu um erro inesperado.
+
+# Optional
+VALIDATOR_ERROR_FIELD_IS_REQUIRED: O campo "{field}" é mandatório. # NOTE: this translation key is set due to `const { isRequiredValidator } = @leonardosarmentocastro/validate` being used on functional tests.
