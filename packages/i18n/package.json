@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/i18n",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "support content translation using .yml",
   "main": "src/index.js",
   "publishConfig": {

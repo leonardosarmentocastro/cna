@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/pagination",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "mongoose pagination",
   "main": "src/index.js",
   "publishConfig": {
@@ -26,8 +26,8 @@
     "mongoose": "^6.5.0"
   },
   "dependencies": {
-    "@leonardosarmentocastro/database": "*",
-    "@leonardosarmentocastro/i18n": "*",
+    "@leonardosarmentocastro/database": "^1.0.0",
+    "@leonardosarmentocastro/i18n": "^1.0.0",
     "mongoose": "^6.5.0",
     "validator": "^13.6.0"
   }
