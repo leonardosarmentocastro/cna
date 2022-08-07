@@ -1,0 +1,22 @@
+# @leonardosarmentocastro/authentication
+AUTHENTICATION_ERROR_EMAIL_NOT_FOUND: Autenticação falhou pois não há nenhum usuário registrado com este email.
+AUTHENTICATION_ERROR_PASSWORD_MISMATCH: Autenticação falhou pois a senha fornecida não corresponde a senha do usuário.
+AUTHENTICATION_ERROR_PASSWORD_NOT_STRONG: Autenticação falhou pois a senha não é forte o bastante.
+AUTHENTICATION_ERROR_TOKEN_EXPIRED: Autenticação falhou pois o token está expirado.
+AUTHENTICATION_ERROR_TOKEN_INVALID: Autenticação falhou pois o token é inválido.
+AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Autenticação falhou pois o token ainda não pode ser usado.
+AUTHORIZATION_ERROR_INVALID_TOKEN: Você não tem permissão para acessar rotas privadas com um token de autorização inválido.
+
+# @leonardosarmentocastro/pagination
+PAGINATION_ERROR_QUERY_PARAMETER_INVALID: O parâmetro de busca "{field}" é inválido.
+
+# @leonardosarmentocastro/crud
+ERROR_DOCUMENT_NOT_FOUND: Documento para id "{id}" não foi encontrado.
+ERROR_UNEXPECTED: Desculpe, ocorreu um erro inesperado.
+
+# @leonardosarmentocastro/validate
+VALIDATOR_ERROR_FIELD_IS_ALREADY_IN_USE: Este "{field}" já está em uso.
+VALIDATOR_ERROR_FIELD_IS_REQUIRED: O campo "{field}" é mandatório.
+VALIDATOR_ERROR_FIELD_IS_TOO_LONG: O campo "{field}" é longo demais (máximo de caracteres é {maxLength}).
+VALIDATOR_ERROR_EMAIL_INVALID: O email "{email}" é inválido.
+VALIDATOR_ERROR_PASSWORD_NOT_STRONG: Senha não é forte o bastante.

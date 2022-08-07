@@ -28,7 +28,7 @@
     "@phc/pbkdf2": "^1.1.14",
     "dayjs": "^1.10.4",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.5.0",
+    "mongoose": "6.5.0",
     "upash": "^1.0.2"
   },
   "devDependencies": {
@@ -37,6 +37,6 @@
     "the-owl": "^1.1.2"
   },
   "peerDependencies": {
-    "mongoose": "^6.5.0"
+    "mongoose": "6.5.0"
   }
 }

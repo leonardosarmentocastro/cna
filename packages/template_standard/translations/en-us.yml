@@ -1,0 +1,22 @@
+# @leonardosarmentocastro/authentication
+AUTHENTICATION_ERROR_EMAIL_NOT_FOUND: Authentication failed as no user is registered with the provided email.
+AUTHENTICATION_ERROR_PASSWORD_MISMATCH: Authentication failed as the provided password mismatches user's password.
+AUTHENTICATION_ERROR_PASSWORD_NOT_STRONG: Authentication failed as password is not strong enough.
+AUTHENTICATION_ERROR_TOKEN_EXPIRED: Authentication failed as token is expired.
+AUTHENTICATION_ERROR_TOKEN_INVALID: Authentication failed as token is invalid.
+AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Authentication failed as token is still not allowed to be used.
+AUTHORIZATION_ERROR_INVALID_TOKEN: You are not allowed to access private routes with an invalid authorization token.
+
+# @leonardosarmentocastro/pagination
+PAGINATION_ERROR_QUERY_PARAMETER_INVALID: The query parameter "{field}" is invalid.
+
+# @leonardosarmentocastro/crud
+ERROR_DOCUMENT_NOT_FOUND: Document for id "{id}" was not found.
+ERROR_UNEXPECTED: Sorry, an unexpected error has occurred.
+
+# @leonardosarmentocastro/validate
+VALIDATOR_ERROR_FIELD_IS_ALREADY_IN_USE: This "{field}" is already in use.
+VALIDATOR_ERROR_FIELD_IS_REQUIRED: The field "{field}" is required.
+VALIDATOR_ERROR_FIELD_IS_TOO_LONG: The field "{field}" is too long (max length is {maxLength}).
+VALIDATOR_ERROR_EMAIL_INVALID: The email "{email}" is invalid.
+VALIDATOR_ERROR_PASSWORD_NOT_STRONG: Password is not strong enough.

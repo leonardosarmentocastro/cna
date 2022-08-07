@@ -25,7 +25,7 @@
     "js-yaml": "^4.1.0",
     "locale": "^0.1.0",
     "messageformat": "^2.3.0",
-    "mongoose": "^6.5.0"
+    "mongoose": "6.5.0"
   },
   "peerDependencies": {
     "mongoose": "6.5.0"

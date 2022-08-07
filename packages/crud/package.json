@@ -27,7 +27,7 @@
     "validator": "^13.6.0"
   },
   "peerDependencies": {
-    "mongoose": "^6.5.0",
+    "mongoose": "6.5.0",
     "validator": "^13.6.0"
   },
   "devDependencies": {

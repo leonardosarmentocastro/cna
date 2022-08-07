@@ -1,0 +1,65 @@
+{
+  "name": "@leonardosarmentocastro/template_standard",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+    "node": ">=14.16"
+  },
+  "exports": "./index.js",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "env:symlink:development": "ln -sf .env.development .env",
+    "env:symlink:test": "ln -sf .env.test .env",
+    "start:database": "docker-compose up -d database",
+    "start:server": "nodemon index.js",
+    "start:production": "node index.js",
+    "start": "npm run env:symlink:development && npm run start:database && npm run start:server",
+    "test": "npm run test:functional:local",
+    "test:ci": "nyc npm run test:functional",
+    "disabled:test": "npm run test:unit && npm run test:functional:local",
+    "disabled:test:ci": "nyc npm run test:unit && npm run test:functional",
+    "test:functional": "ava **/functional/**/*.test.js --verbose --serial",
+    "test:functional:create-docs": "CREATE_DOCS=true npm run test:functional:local",
+    "test:functional:local": "npm run env:symlink:test && npm run start:database && npm run test:functional",
+    "disabled:test:unit": "ava **/unit/**/*.test.js --verbose",
+    "test:with-coverage": "nyc npm test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "ava": {
+    "require": [
+      "./index.test.js"
+    ]
+  },
+  "nyc": {
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  },
+  "devDependencies": {
+    "ava": "^4.3.1",
+    "detect-port": "^1.3.0",
+    "got": "^12.3.1",
+    "nodemon": "^2.0.19",
+    "nyc": "^15.1.0",
+    "the-owl": "^1.1.2"
+  },
+  "dependencies": {
+    "@leonardosarmentocastro/crud": "*",
+    "@leonardosarmentocastro/database": "*",
+    "@leonardosarmentocastro/i18n": "*",
+    "@leonardosarmentocastro/pagination": "*",
+    "@leonardosarmentocastro/server": "*",
+    "@leonardosarmentocastro/validate": "*",
+    "dotenv": "^16.0.1",
+    "mongoose": "6.5.0"
+  },
+  "peerDependencies": {
+    "mongoose": "6.5.0"
+  }
+}

@@ -20,15 +20,15 @@
   "license": "ISC",
   "devDependencies": {
     "ava": "^4.3.1",
-    "mongoose": "^6.5.0"
+    "mongoose": "6.5.0"
   },
   "peerDependencies": {
-    "mongoose": "^6.5.0"
+    "mongoose": "6.5.0"
   },
   "dependencies": {
     "@leonardosarmentocastro/database": "^1.0.0",
     "@leonardosarmentocastro/i18n": "^1.0.0",
-    "mongoose": "^6.5.0",
+    "mongoose": "6.5.0",
     "validator": "^13.6.0"
   }
 }

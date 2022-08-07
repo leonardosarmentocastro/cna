@@ -1,0 +1,32 @@
+version: '3'
+services:
+  database:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    # MongoDB uses "/data/db" folder internally to stores its information.
+    # We will map it to virtual volume named "database-data", a folder under "/var/lib/docker/volumes"
+    # where Docker not gonna have permission issues for reading/writing data.
+    # https://stackoverflow.com/questions/61147270/docker-compose-and-mongodb-failed-to-start-up-wiredtiger-under-any-compatibilit
+    volumes:
+      - database-data:/data/db
+  server:
+    build: .
+    depends_on:
+      - database
+    # Receives variables from "docker-compose up" instruction and attach as nodejs "process.env" variables.
+    # They will only be replaced if they are not empty, otherwise, values from ".env" file will be used.
+    environment:
+      - LANGUAGE=${LANGUAGE}
+      - MONGODB_CONNECTION_STRING=${MONGODB_CONNECTION_STRING}
+      - MONGODB_DATABASE_NAME=${MONGODB_DATABASE_NAME}
+      - MONGODB_HOST=${MONGODB_HOST}
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${PORT}
+    ports:
+      # Exposes the given port from "docker-compose up" instruction from your personal computer.
+      - "${PORT}:${PORT}"
+# Named volumes used by different services (follows the syntax "[SOURCE:]TARGET[:MODE]").
+# As no TARGET is being set, a default value pointing to "/var/lib/docker/volumes" will be used.
+volumes:
+  database-data:
