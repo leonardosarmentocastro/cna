@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const retry = require('async-retry')
 
-const CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING || `mongodb://${process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE_NAME}`;
-const isProduction = (process.env.NODE_ENV === 'production');
-const connectedOnURI = isProduction ? '' : `URI: "${CONNECTION_STRING}"`;
-
 exports.database = {
   connect: async () => {
+    const CONNECTION_STRING = process.env.MONGODB_CONNECTION_STRING || `mongodb://${process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE_NAME}`;
+    const isProduction = (process.env.NODE_ENV === 'production');
+    const connectedOnURI = isProduction ? '' : `URI: "${CONNECTION_STRING}"`;
+
     let retryCount = 0;
     const retries = 5;
     const minTimeout = 3000;
@@ -25,7 +25,7 @@ exports.database = {
       },
     };
 
-    await retry(() => mongoose.connect(CONNECTION_STRING))
+    await retry(() => mongoose.connect(CONNECTION_STRING), options)
       .catch(err => {
         const errorMessage = [
           `[ database::ERROR ] Failed to connect to database. ${connectedOnURI}`,
