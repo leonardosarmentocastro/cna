@@ -36,7 +36,7 @@ test('(200) must return paginated content if there are users from database', asy
   const url1 = `${t.context.endpointBaseUrl}?l=2&p=1`;
   const response1 = await got(url1, getRequestOptions(t));
   t.assert(response1.statusCode === 200);
-  t.deepEqual(response1.body, {
+  t.deepEqual(JSON.parse(response1.body), {
     docs: [ users[0], users[1] ],
     hasNextPage: true,
     hasPreviousPage: false,
@@ -49,7 +49,7 @@ test('(200) must return paginated content if there are users from database', asy
   const url2 = `${t.context.endpointBaseUrl}?l=2&p=2`;
   const response2 = await got(url2, getRequestOptions(t));
   t.assert(response2.statusCode === 200);
-  t.deepEqual(response2.body, {
+  t.deepEqual(JSON.parse(response2.body), {
     docs: [ users[2], users[3] ],
     hasNextPage: false,
     hasPreviousPage: true,
@@ -66,7 +66,7 @@ test('(200) must return an empty array if there are no users on database', async
   // NOTE: Query parameters for pagination are optional. Default values are assigned on their absence.
   const response = await got(t.context.endpointBaseUrl, getRequestOptions(t));
   t.assert(response.statusCode === 200);
-  t.deepEqual(response.body, {
+  t.deepEqual(JSON.parse(response.body), {
     docs: [],
     hasNextPage: false,
     hasPreviousPage: false,
