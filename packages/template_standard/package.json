@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/template_standard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "engines": {
     "node": ">=14.16"
@@ -50,10 +50,10 @@
     "the-owl": "^1.1.2"
   },
   "dependencies": {
-    "@leonardosarmentocastro/crud": "*",
-    "@leonardosarmentocastro/database": "*",
-    "@leonardosarmentocastro/i18n": "*",
-    "@leonardosarmentocastro/pagination": "*",
+    "@leonardosarmentocastro/crud": "^1.0.1",
+    "@leonardosarmentocastro/database": "^1.0.1",
+    "@leonardosarmentocastro/i18n": "^1.0.1",
+    "@leonardosarmentocastro/pagination": "^1.0.1",
     "@leonardosarmentocastro/server": "*",
     "@leonardosarmentocastro/validate": "*",
     "dotenv": "^16.0.1",
