@@ -36,7 +36,7 @@ test.before('setup: start an api/connect to database', async t => {
       });
       schema.plugin(paginationPlugin);
 
-      const model = mongoose.model('Product', schema);
+      const model = mongoose.model('NationalProduct', schema);
       crud.connect(app, model);
       t.context.model = model; // it's gonna be used on tests.
     },
@@ -49,8 +49,8 @@ test.after.always('teardown: api/database', async t => {
 
 test('++++++++++++++++++++ success scenarios:', t => t.pass());
 
-test('[C] must succeed on creating an entry for any given model (e.g. "POST /products")', async t => {
-  const response = await got.post(`http://127.0.0.1:8080/products`, { json: PRODUCT1 });
+test('[C] must succeed on creating an entry for any given model (e.g. "POST /national-product")', async t => {
+  const response = await got.post(`http://127.0.0.1:8080/national-product`, { json: PRODUCT1 });
   const body = JSON.parse(response.body);
 
   t.assert(response.statusCode === 200);
@@ -59,11 +59,11 @@ test('[C] must succeed on creating an entry for any given model (e.g. "POST /pro
   t.truthy(body.id);
 });
 
-test('[R] must succeed on reading entries for any given model (e.g. "GET /products")', async t => {
+test('[R] must succeed on reading entries for any given model (e.g. "GET /national-product")', async t => {
   await t.context.model.deleteMany({});
   const product1 = (await t.context.model.create(PRODUCT1)).toObject();
 
-  const response = await got(`http://127.0.0.1:8080/products`);
+  const response = await got(`http://127.0.0.1:8080/national-product`);
   const body = JSON.parse(response.body);
 
   t.assert(response.statusCode === 200);
@@ -79,11 +79,11 @@ test('[R] must succeed on reading entries for any given model (e.g. "GET /produc
   });
 });
 
-test('[R] must succeed on reading an entry searching by its id (e.g. "GET /products/:id")', async t => {
+test('[R] must succeed on reading an entry searching by its id (e.g. "GET /national-product/:id")', async t => {
   await t.context.model.deleteMany({});
   const product1 = (await t.context.model.create(PRODUCT1)).toObject();
 
-  const response = await got(`http://127.0.0.1:8080/products/${product1.id}`);
+  const response = await got(`http://127.0.0.1:8080/national-product/${product1.id}`);
   const body = JSON.parse(response.body);
 
   t.assert(response.statusCode === 200);
@@ -91,12 +91,12 @@ test('[R] must succeed on reading an entry searching by its id (e.g. "GET /produ
   t.deepEqual(body, product1);
 });
 
-test('[U] must succeed on updating an entry for any given model (e.g. "PUT /products/:id")', async t => {
+test('[U] must succeed on updating an entry for any given model (e.g. "PUT /national-product/:id")', async t => {
   await t.context.model.deleteMany({});
   const product1 = (await t.context.model.create(PRODUCT1)).toObject();
   const payload = { name: 'product1::updated' };
 
-  const response = await got.put(`http://127.0.0.1:8080/products/${product1.id}`, {
+  const response = await got.put(`http://127.0.0.1:8080/national-product/${product1.id}`, {
     json: payload,
   });
   const body = JSON.parse(response.body);
@@ -109,14 +109,14 @@ test('[U] must succeed on updating an entry for any given model (e.g. "PUT /prod
   });
 });
 
-test('[D] must succeed on deleting an entry for any given model (e.g. "DELETE /products/:id")', async t => {
+test('[D] must succeed on deleting an entry for any given model (e.g. "DELETE /national-product/:id")', async t => {
   await t.context.model.deleteMany({});
   const product1 = (await t.context.model.create(PRODUCT1)).toObject();
 
   const doc1 = await t.context.model.findById(product1.id);
   t.deepEqual(doc1.toObject(), product1);
 
-  const response = await got.delete(`http://127.0.0.1:8080/products/${product1.id}`);
+  const response = await got.delete(`http://127.0.0.1:8080/national-product/${product1.id}`);
   t.assert(response.statusCode === 200);
   t.is(response.body, '');
 
@@ -130,7 +130,7 @@ test('[C] when failing to create an entry due to "schema validation", return a t
   const field = 'name';
   const payload = { [field]: '' };
 
-  return got.post(`http://127.0.0.1:8080/products`, {
+  return got.post(`http://127.0.0.1:8080/national-product`, {
     json: payload,
     headers: { 'accept-language': 'pt-br' },
   }).catch(error => {
@@ -148,7 +148,7 @@ test('[R] when failing to read an entry due to "id is not a mongoid", return an 
   await t.context.model.deleteMany({});
   const id = '0123456789';
 
-  return got(`http://127.0.0.1:8080/products/${id}`, {
+  return got(`http://127.0.0.1:8080/national-product/${id}`, {
     headers: { 'accept-language': 'pt-br' },
   }).catch(error => {
     t.assert(error.response.statusCode == 500);
@@ -160,7 +160,7 @@ test('[R] when failing to read an entry due to "doc of ${id} not found", return 
   await t.context.model.deleteMany({});
   const id = new mongoose.Types.ObjectId();
 
-  return got(`http://127.0.0.1:8080/products/${id}`, {
+  return got(`http://127.0.0.1:8080/national-product/${id}`, {
     headers: { 'accept-language': 'pt-br' },
   }).catch(error => {
     t.assert(error.response.statusCode == 500);
@@ -172,7 +172,7 @@ test('[U] when failing to update an entry due to "id is not a mongoid", return a
   await t.context.model.deleteMany({});
   const id = '0123456789';
 
-  return got.put(`http://127.0.0.1:8080/products/${id}`, {
+  return got.put(`http://127.0.0.1:8080/national-product/${id}`, {
     headers: { 'accept-language': 'pt-br' },
   }).catch(error => {
     t.assert(error.response.statusCode == 500);
@@ -184,7 +184,7 @@ test('[U] when failing to update an entry due to "doc of ${id} not found", retur
   await t.context.model.deleteMany({});
   const id = new mongoose.Types.ObjectId();
 
-  return got.put(`http://127.0.0.1:8080/products/${id}`, {
+  return got.put(`http://127.0.0.1:8080/national-product/${id}`, {
     headers: { 'accept-language': 'pt-br' },
   }).catch(error => {
     t.assert(error.response.statusCode == 500);
@@ -198,7 +198,7 @@ test('[U] when failing to update an entry due to "schema validation", return a t
 
   const field = 'name';
   const payload = { [field]: '' }; // prop "name" is set as required on validation middleware
-  return got.put(`http://127.0.0.1:8080/products/${product1.id}`, {
+  return got.put(`http://127.0.0.1:8080/national-product/${product1.id}`, {
     headers: { 'accept-language': 'pt-br' },
     json: payload,
   }).catch(error => {
@@ -213,7 +213,7 @@ test('[D] when failing to delete an entry due to "doc of ${id} not found", retur
   await t.context.model.deleteMany({});
   const id = new mongoose.Types.ObjectId();
 
-  return got.put(`http://127.0.0.1:8080/products/${id}`, {
+  return got.put(`http://127.0.0.1:8080/national-product/${id}`, {
     headers: { 'accept-language': 'pt-br' },
   }).catch(error => {
     t.assert(error.response.statusCode == 500);

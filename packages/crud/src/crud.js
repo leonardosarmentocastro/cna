@@ -9,14 +9,14 @@ const {
   serveCreatedDocResolver,
   updateResolver,
 } = require('./resolvers');
+const { kebabCase } = require('./utils');
 
 // TODO: como gerar documentação automática usando the-owl? vish, aí vai ser super sayadin
 // Injeta o model num método que executa os tests e gera documentação. Uma engenharia reversa.
 exports.crud = {
   connect(app, model = DEFAULTS.model) {
-    const { collectionName } = model.collection; // "users"
-    const basePath = `/${collectionName}`; // "/users"
-    console.log(`[ crud::info ] creating routes for "${basePath}"`);
+    const { modelName } = model.collection; // "MaterialsCollection"
+    const basePath = `/${kebabCase(modelName)}`; // "/materials-collection"
 
     app.route(basePath)
       .get(paginationMiddleware, readResolver(model))
