@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/authentication",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "authentication",
   "main": "src/index.js",
   "publishConfig": {
@@ -20,7 +20,7 @@
   "author": "leonardosarmentocastro",
   "license": "ISC",
   "dependencies": {
-    "@leonardosarmentocastro/crud": "^1.0.1",
+    "@leonardosarmentocastro/crud": "^1.0.2",
     "@leonardosarmentocastro/database": "^1.0.1",
     "@leonardosarmentocastro/i18n": "^1.0.1",
     "@leonardosarmentocastro/server": "^1.0.0",
