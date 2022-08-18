@@ -17,6 +17,7 @@ exports.crud = {
   connect(app, model = DEFAULTS.model) {
     const { modelName } = model.collection; // "MaterialsCollection"
     const basePath = `/${kebabCase(modelName)}`; // "/materials-collection"
+    console.log(`[ crud::info ] creating routes for "${basePath}"`);
 
     app.route(basePath)
       .get(paginationMiddleware, readResolver(model))
