@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/crud",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "crud",
   "main": "src/index.js",
   "publishConfig": {
@@ -22,7 +22,7 @@
     "@leonardosarmentocastro/i18n": "^1.0.1",
     "@leonardosarmentocastro/pagination": "^1.0.1",
     "@leonardosarmentocastro/server": "^1.0.0",
-    "@leonardosarmentocastro/validate": "^1.0.0",
+    "@leonardosarmentocastro/validate": "^1.1.0",
     "mongoose": "6.5.0",
     "validator": "^13.6.0"
   },
