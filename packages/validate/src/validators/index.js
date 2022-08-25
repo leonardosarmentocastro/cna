@@ -3,5 +3,6 @@ module.exports = {
   ...require('./is-password-strong-validator'),
   ...require('./is-required-validator'),
   ...require('./is-too-long-validator'),
+  ...require('./is-valid-cpf-validator'),
   ...require('./is-valid-email-validator'),
 };
