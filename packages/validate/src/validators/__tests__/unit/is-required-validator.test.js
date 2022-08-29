@@ -6,6 +6,10 @@ test('validator must return "false" if specified field is empty', t => {
   const userDoc = {
     email: '',
     username: 'not empty',
+    emptyList: [],
+    notEmptyList: [ '1' ],
+    emptyObject: {},
+    notEmptyObject: { a: '1' },
   };
 
   t.false(
@@ -13,5 +17,17 @@ test('validator must return "false" if specified field is empty', t => {
   );
   t.true(
     isRequiredValidator('username')(userDoc).validator()
+  );
+  t.false(
+    isRequiredValidator('emptyList')(userDoc).validator()
+  );
+  t.true(
+    isRequiredValidator('notEmptyList')(userDoc).validator()
+  );
+  t.false(
+    isRequiredValidator('emptyObject')(userDoc).validator()
+  );
+  t.true(
+    isRequiredValidator('notEmptyObject')(userDoc).validator()
   );
 });
