@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/template_standard",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "",
   "engines": {
     "node": ">=14.16"
@@ -49,12 +49,12 @@
     "nyc": "^15.1.0"
   },
   "dependencies": {
-    "@leonardosarmentocastro/crud": "^1.1.1",
+    "@leonardosarmentocastro/crud": "^1.2.0",
     "@leonardosarmentocastro/database": "^1.0.1",
     "@leonardosarmentocastro/i18n": "^1.0.1",
     "@leonardosarmentocastro/pagination": "^1.0.1",
     "@leonardosarmentocastro/server": "*",
-    "@leonardosarmentocastro/validate": "^1.1.1",
+    "@leonardosarmentocastro/validate": "^1.2.0",
     "dotenv": "^16.0.1",
     "mongoose": "6.5.0",
     "the-owl": "^1.1.2"
