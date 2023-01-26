@@ -1,6 +1,6 @@
-const { createResolver } = require('@leonardosarmentocastro/crud');
+import { createResolver } from '@leonardosarmentocastro/crud';
 
-const { DEFAULTS } = require('../defaults');
-const { signTokenResolver } = require('./sign-token-resolver');
+import { DEFAULTS } from '../defaults.js';
+import { signTokenResolver } from './sign-token-resolver.js';
 
-exports.signUpResolver = (model = DEFAULTS.model) => [ createResolver(model), signTokenResolver ];
+export const signUpResolver = (model = DEFAULTS.model) => [ createResolver(model), signTokenResolver ];

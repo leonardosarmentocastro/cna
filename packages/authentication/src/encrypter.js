@@ -1,8 +1,9 @@
-const upash = require('upash');
-upash.install('pbkdf2', require('@phc/pbkdf2'));
+import upash from 'upash';
+import pbkdf2 from '@phc/pbkdf2';
+upash.install('pbkdf2', pbkdf2);
 
 // Reference: https://github.com/simonepri/phc-pbkdf2
-exports.encrypter = ({
+export const encrypter = ({
   hash: async (password) => {
     const hashedPassword = await upash.hash(password);
     return hashedPassword;

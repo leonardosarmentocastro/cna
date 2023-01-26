@@ -1,15 +1,15 @@
-const jwt = require('jsonwebtoken');
-const util = require('util');
+import jwt from 'jsonwebtoken';
+import util from 'util';
 
-const {
+import {
   authenticationErrorTokenExpired,
   authenticationErrorTokenInvalid,
   authenticationErrorTokenNotBefore,
-} = require('./errors');
+} from './errors.js';
 
 const verify = util.promisify(jwt.verify);
 
-exports.validate = async (authenticationToken) => {
+export const validate = async (authenticationToken) => {
   try {
     await verify(authenticationToken, process.env.AUTHENTICATION_SECRET);
     return null;

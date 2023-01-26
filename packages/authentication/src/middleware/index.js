@@ -1,5 +1,3 @@
-module.exports = {
-  ...require('./errors'),
-  ...require('./middleware'),
-  ...require('./validate'),
-};
+export * from './errors.js';
+export * from './middleware.js';
+export * from './validate.js';

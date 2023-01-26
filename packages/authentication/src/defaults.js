@@ -1,12 +1,11 @@
-const mongoose = require('mongoose');
+import Mongoose from 'mongoose';
 
-const { authenticationSchema } = require('./schema');
-const { plugSchema } = require('@leonardosarmentocastro/database');
+import { authenticationSchema } from './schema.js';
 
-const schema = new mongoose.Schema({ text: String });
+const schema = new Mongoose.Schema({
+  authentication: authenticationSchema,
+  name: 'String',
+});
 schema.set('toObject', { virtuals: true });
-schema.plugin(plugSchema(authenticationSchema));
-
-const model = new mongoose.model('Authentication', schema);
-
-exports.DEFAULTS = { model };
+export const TestingModel = new Mongoose.model('Authentication', schema);
+export const DEFAULTS = { model: TestingModel };

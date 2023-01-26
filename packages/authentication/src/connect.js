@@ -1,6 +1,6 @@
-const { signInResolver, signTokenResolver, signUpResolver } = require('./resolvers');
+import { signInResolver, signTokenResolver, signUpResolver } from './resolvers/index.js';
 
-exports.connect = (app, model) => {
-  app.post('/authentication/sign-in', [signInResolver(model), signTokenResolver]);
+export const connect = (app, model) => {
+  app.post('/authentication/sign-in', [ signInResolver(model), signTokenResolver ] );
   app.post('/authentication/sign-up', signUpResolver(model));
 };

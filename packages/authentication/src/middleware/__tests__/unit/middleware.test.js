@@ -1,8 +1,8 @@
-const test = require('ava');
-const dayjs = require('dayjs');
-const jwt = require('jsonwebtoken');
+import test from 'ava';
+import dayjs from 'dayjs';
+import jwt from 'jsonwebtoken';
 
-const { authenticationMiddleware } = require('../../middleware');
+import { authenticationMiddleware } from '../../middleware.js';
 
 test.before('setup necessary environment variables', t => {
   process.env.AUTHENTICATION_SECRET = 'authentication-secret-test.middleware';

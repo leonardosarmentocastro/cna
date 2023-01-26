@@ -1,11 +1,9 @@
-const { tokenIssuer } = require('../token-issuer');
+import { tokenIssuer } from '../token-issuer.js';
 
-const signTokenResolver = async (req, res) => {
+export const signTokenResolver = async (req, res) => {
   const authenticated = req.createdDoc || req.signedInDoc;
   const authenticationToken = tokenIssuer.sign(authenticated);
   res.set('Authorization', authenticationToken);
 
   res.end();
 };
-
-module.exports = { signTokenResolver };

@@ -1,24 +1,24 @@
-const test = require('ava');
-const got = require('got');
-const jwt = require('jsonwebtoken');
-const server = require('@leonardosarmentocastro/server');
-const i18n = require('@leonardosarmentocastro/i18n');
-const { database } = require('@leonardosarmentocastro/database');
+import test from 'ava';
+import got from 'got';
+import jwt from 'jsonwebtoken';
+import server from '@leonardosarmentocastro/server';
+import i18n from '@leonardosarmentocastro/i18n';
+import { database } from '@leonardosarmentocastro/database';
 
-const { DEFAULTS } = require('../../../defaults');
-const { connect } = require('../../../connect');
+import { connect } from '../../../connect.js';
+import { VALID_DOC } from '../../../__fixtures__/index.js';
+import { TestingModel } from '../../../defaults.js';
 
 // Setup
 const PORT = 8080;
 const URL = `http://127.0.0.1:${PORT}/authentication/sign-up`;
-const VALID_DOC = { email: 'valid-email@domain.com', password: 'v@l1dpAssw0rD' };
 test.before('set required environment variables', t => {
   process.env.AUTHENTICATION_SECRET = 'any secret';
 });
 test.before('prepare: start api / connect to database', async t => {
   await database.connect();
 
-  t.context.model = DEFAULTS.model;
+  t.context.model = TestingModel;
   t.context.api = await server.start(PORT, {
     middlewares: (app) => {
       i18n.connect(app);

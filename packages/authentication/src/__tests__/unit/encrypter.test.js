@@ -1,6 +1,6 @@
-const test = require('ava');
+import test from 'ava';
 
-const { encrypter } = require('../../encrypter');
+import { encrypter } from '../../encrypter.js';
 
 // Fixtures
 const PASSWORDS = ['123456', 'p@ssw0rd', '+123abc321+'];

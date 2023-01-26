@@ -1,12 +1,12 @@
-const test = require('ava');
-const jwt = require('jsonwebtoken');
+import test from 'ava';
+import jwt from 'jsonwebtoken';
 
-const { validate } = require('../../validate');
-const {
+import { validate } from '../../validate.js';
+import {
   authenticationErrorTokenExpired,
   authenticationErrorTokenInvalid,
-  authenticationErrorTokenNotBefore
-} = require('../../errors');
+  authenticationErrorTokenNotBefore,
+} from '../../errors.js';
 
 test.before('setup necessary environment variables', t => {
   process.env.AUTHENTICATION_SECRET = 'authentication-secret-test.validate';

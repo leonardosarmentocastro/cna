@@ -1,14 +1,21 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-exports.tokenIssuer = {
-  sign: (authenticated = {}) => jwt.sign(
+const DEFAULT = {
+  options: {
+    expiresIn: '7 days',
+    issuer: '@leonardosarmentocastro/authentication',
+  },
+};
+
+export const tokenIssuer = {
+  sign: (authenticated = {}, options = DEFAULT.options) => jwt.sign(
     {
-      payload: {}, // TODO: authenticateds "role"
+      payload: {}, // TODO: authenticated's "role"
     },
     process.env.AUTHENTICATION_SECRET,
     {
-      expiresIn: '7 days',
-      issuer: '@leonardosarmentocastro/authentication',
+      expiresIn: options.expiresIn,
+      issuer: options.issuer,
       subject: authenticated.id,
     },
   )

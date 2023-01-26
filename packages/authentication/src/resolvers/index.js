@@ -1,5 +1,3 @@
-module.exports = {
-  ...require('./sign-in-resolver'),
-  ...require('./sign-token-resolver'),
-  ...require('./sign-up-resolver'),
-};
+export * from './sign-in-resolver.js';
+export * from './sign-token-resolver.js';
+export * from './sign-up-resolver.js';

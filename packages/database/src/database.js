@@ -18,7 +18,7 @@ exports.database = {
         retryCount++;
 
         const infoMessage = [
-          `[ database::NOT_READY ] Failed to connect to database. Retry ${retryCount} of ${retries}.`
+          `[ database::NOT_READY ] Failed to connect to database. Retry ${retryCount} of ${retries}.`,
           `Retrying in ${retryInSeconds} seconds.`,
         ].join(' ');
         console.info(infoMessage);

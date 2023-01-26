@@ -1,23 +1,23 @@
-const test = require('ava');
-const got = require('got');
-const jwt = require('jsonwebtoken');
-const i18n = require('@leonardosarmentocastro/i18n');
-const server = require('@leonardosarmentocastro/server');
-const { database } = require('@leonardosarmentocastro/database');
-const { translate } = require('@leonardosarmentocastro/i18n');
-const { isRequiredValidator } = require('@leonardosarmentocastro/validate');
+import test from 'ava';
+import got from 'got';
+import jwt from 'jsonwebtoken';
+import i18n from '@leonardosarmentocastro/i18n';
+import server from '@leonardosarmentocastro/server';
+import { database } from '@leonardosarmentocastro/database';
+import { translate } from '@leonardosarmentocastro/i18n';
+import { isRequiredValidator } from '@leonardosarmentocastro/validate';
 
-const {
-  AUTHENTICATION_ERROR_EMAIL_NOT_FOUND,
-  AUTHENTICATION_ERROR_PASSWORD_MISMATCH,
-} = require('../../../errors');
-const { DEFAULTS } = require('../../../defaults');
-const { connect } = require('../../../connect');
+import {
+  authenticationErrorCellphoneNotFound,
+  authenticationErrorPasswordMismatch,
+} from '../../../errors.js';
+import { DEFAULTS } from '../../../defaults.js';
+import { connect } from '../../../connect.js';
+import { VALID_DOC } from '../../../__fixtures__/index.js';
 
 // Setup
 const PORT = 8080;
 const URL = `http://127.0.0.1:${PORT}/authentication/sign-in`;
-const VALID_DOC = { email: 'valid-email@domain.com', password: 'v@l1dpAssw0rD' };
 const LOCALE = 'pt-br';
 const headers = { 'accept-language': LOCALE };
 test.before('set required environment variables', t => {
@@ -45,7 +45,13 @@ test('(200) must succeed on authenticating the user and signing a jwt token for 
   await t.context.model.create(VALID_DOC);
   t.assert((await getDocsSavedOnDatabase(t)).length === 1);
 
-  const response = await got.post(URL, { json: VALID_DOC, headers });
+  const response = await got.post(URL, {
+    json: {
+      cellphone: VALID_DOC.authentication.cellphone,
+      password: VALID_DOC.authentication.password,
+    },
+    headers,
+  });
 
   t.assert(response.statusCode == 200);
   t.assert((await getDocsSavedOnDatabase(t)).length === 1);
@@ -56,10 +62,10 @@ test('(200) must succeed on authenticating the user and signing a jwt token for 
 });
 
 // Unhappy path tests
-[ 'email', 'password' ].forEach(field => {
+[ 'cellphone', 'password' ].forEach(field => {
   test(`(400) must return an error when not providing the field "${field}" on request body`, t => {
-    const { email, password } = VALID_DOC;
-    const authenticationPayload = { email, password, [field]: undefined };
+    const { cellphone, password } = VALID_DOC.authentication;
+    const authenticationPayload = { cellphone, password, [field]: undefined };
 
     return got.post(URL, { json: authenticationPayload, headers })
       .catch(error => {
@@ -71,17 +77,17 @@ test('(200) must succeed on authenticating the user and signing a jwt token for 
   });
 });
 
-test('(404) must return an error when providing an "email" that is not registered for any user', t => {
-  const email = `not-${VALID_DOC.email}`;
-  const { password } = VALID_DOC;
+test('(404) must return an error when providing an "cellphone" that is not registered for any user', t => {
+  const cellphone = `not-${VALID_DOC.authentication.cellphone}`;
+  const { password } = VALID_DOC.authentication;
 
   return got.post(URL, {
-    json: { email, password },
+    json: { cellphone, password },
     headers
   })
   .catch(error => {
     t.assert(error.response.statusCode == 404);
-    t.deepEqual(JSON.parse(error.response.body), translate.error(AUTHENTICATION_ERROR_EMAIL_NOT_FOUND, LOCALE, {}));
+    t.deepEqual(JSON.parse(error.response.body), translate.error(authenticationErrorCellphoneNotFound(cellphone), LOCALE, {}));
   });
 });
 
@@ -89,12 +95,15 @@ test('(404) must return an error when providing a "password" that mismatches use
   await t.context.model.create(VALID_DOC);
   t.assert((await getDocsSavedOnDatabase(t)).length === 1);
 
+  const cellphone = VALID_DOC.authentication.cellphone;
+  const password = `not-${VALID_DOC.authentication.password}`;
+
   return got.post(URL, {
-    json: { email: VALID_DOC.email, password: `not-${VALID_DOC.password}` },
+    json: { cellphone, password },
     headers
   })
   .catch(error => {
     t.assert(error.response.statusCode == 404);
-    t.deepEqual(JSON.parse(error.response.body), translate.error(AUTHENTICATION_ERROR_PASSWORD_MISMATCH, LOCALE, {}));
+    t.deepEqual(JSON.parse(error.response.body), translate.error(authenticationErrorPasswordMismatch(password), LOCALE, {}));
   });
 });

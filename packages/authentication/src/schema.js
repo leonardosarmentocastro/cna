@@ -1,51 +1,60 @@
-const mongoose = require('mongoose');
-
-const { encrypter } = require('./encrypter');
-const {
+import Mongoose from 'mongoose';
+import {
   isPasswordStrongValidator,
   isRequiredValidator,
-  isValidEmailValidator,
   validate,
-} = require('@leonardosarmentocastro/validate');
+} from '@leonardosarmentocastro/validate';
+
+import { encrypter } from './encrypter.js';
+import {
+  isValidCellphoneValidator,
+  // isValidUseChoiceValidator, // TODO: provide a way to register using email
+  areValidTokensValidator,
+} from './validators.js';
 
 // Schema definitions
-const authenticationSchema = new mongoose.Schema({
+export const authenticationSchema = new Mongoose.Schema({
   _id: false,
-  email: { type: String },
-  password: { type: String },
-  // TODO: tokens: [],
+  cellphone: String,
+  // email: String, // TODO: provide a way to register using email
+  // use: String, // TODO: provide a way to register using email
+  password: String,
+  require2FA: { type: Boolean, default: false },
+  tokens: [ String ],
 });
 
 // Middlewares
-const preSaveMiddleware = async function() {
-  const schema = this;
+authenticationSchema.pre('save', async function() {
+  const doc = this;
 
-  const isPasswordHashed = encrypter.isHashed(schema.password);
-  if (!isPasswordHashed) schema.password = await encrypter.hash(schema.password);
-}
+  const isPasswordHashed = encrypter.isHashed(doc.password);
+  if (!isPasswordHashed) doc.password = await encrypter.hash(doc.password);
+});
 
-const validationsMiddleware = async (authorizationDoc, next) => {
+authenticationSchema.post('validate', async (doc, next) => {
   const constraints = [
-    ...['email', 'password'].map(field => isRequiredValidator(field)),
-    isValidEmailValidator,
+    ...[
+      'cellphone',
+      'password',
+      // 'use', // TODO: provide a way to register using email
+    ].map(field => isRequiredValidator(field)),
+    // isValidUseChoiceValidator, // TODO: provide a way to register using email
+    isValidCellphoneValidator,
     isPasswordStrongValidator,
+    areValidTokensValidator,
   ];
-  const error = await validate(constraints, authorizationDoc);
+  const error = await validate(constraints, doc);
 
   return next(error);
-};
+});
 
-const transform = (doc, ret) => {
-  const { password, ...fields } = ret;
-  return fields;
-};
+authenticationSchema.set('toObject', {
+  transform: (doc, ret, options = { sensitive: true }) => {
+    if (options.sensitive) {
+      const { password, tokens, ...fields } = ret;
+      return fields;
+    }
 
-// Setup
-authenticationSchema.pre('save', preSaveMiddleware);
-authenticationSchema.post('validate', validationsMiddleware);
-authenticationSchema.set('toObject', { transform });
-
-module.exports = {
-  preSaveMiddleware,
-  authenticationSchema
-};
+    return ret;
+  },
+});

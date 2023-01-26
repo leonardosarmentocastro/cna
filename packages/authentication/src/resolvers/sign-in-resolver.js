@@ -1,27 +1,27 @@
-const { isRequiredValidator, validate } = require('@leonardosarmentocastro/validate');
+import { isRequiredValidator, validate } from '@leonardosarmentocastro/validate';
 
-const { DEFAULTS } = require('../defaults');
-const { encrypter } = require('../encrypter');
-const {
+import { DEFAULTS } from '../defaults.js';
+import { encrypter } from '../encrypter.js';
+import {
   translatedError,
-  AUTHENTICATION_ERROR_EMAIL_NOT_FOUND,
-  AUTHENTICATION_ERROR_PASSWORD_MISMATCH,
-} = require('../errors');
+  authenticationErrorCellphoneNotFound,
+  authenticationErrorPasswordMismatch,
+} from '../errors.js';
 
-exports.signInResolver = (model = DEFAULTS.model) => async (req, res, next) => {
+export const signInResolver = (model = DEFAULTS.model) => async (req, res, next) => {
   try {
-    const constraints = [ ...[ 'email', 'password' ].map(field => isRequiredValidator(field)) ];
+    const constraints = [ ...[ 'cellphone', 'password' ].map(field => isRequiredValidator(field)) ];
     const err = await validate(constraints, req.body);
     if (err) throw { err, statusCode: 400 };
 
-    const { email, password } = req.body;
-    const doc = await model.findOne({ email });
-    if (!doc) throw { err: AUTHENTICATION_ERROR_EMAIL_NOT_FOUND, statusCode: 404 };
+    const { cellphone, password } = req.body;
+    const doc = await model.findOne({ 'authentication.cellphone': cellphone });
+    if (!doc) throw { err: authenticationErrorCellphoneNotFound(cellphone), statusCode: 404 };
 
-    const hasMatched = await encrypter.verify(doc.password, password);
-    if (!hasMatched) throw { err: AUTHENTICATION_ERROR_PASSWORD_MISMATCH, statusCode: 404 };
+    const hasMatched = await encrypter.verify(doc.authentication.password, password);
+    if (!hasMatched) throw { err: authenticationErrorPasswordMismatch(password), statusCode: 404 };
 
-    const transformedDoc = doc.toObject();
+    const transformedDoc = doc.toObject({ sensitive: true });
     req.signedInDoc = transformedDoc;
     next();
   } catch ({ err, statusCode }) {

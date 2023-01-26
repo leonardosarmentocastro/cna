@@ -1,11 +1,11 @@
-const dayjs = require('dayjs');
-const jwt = require('jsonwebtoken');
+import dayjs from 'dayjs';
+import jwt from 'jsonwebtoken';
 
-const { translatedError } = require('../errors');
-const { validate } = require('./validate');
+import { translatedError } from '../errors.js';
+import { validate } from './validate.js';
 
 // TODO: functional test it.
-exports.authenticationMiddleware = async (req, res, next) => {
+export const authenticationMiddleware = async (req, res, next) => {
   const [ type, authenticationToken ] = req.header('Authorization').trim().split(' ');
 
   const err = await validate(authenticationToken);

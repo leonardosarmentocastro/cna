@@ -1,14 +1,18 @@
-const { translate } = require('@leonardosarmentocastro/i18n');
+import { translate } from '@leonardosarmentocastro/i18n';
 
-exports.AUTHENTICATION_ERROR_EMAIL_NOT_FOUND = {
-  code: 'AUTHENTICATION_ERROR_EMAIL_NOT_FOUND',
-};
+export const authenticationErrorCellphoneNotFound = (cellphone) => ({
+  code: 'AUTHENTICATION_ERROR_CELLPHONE_NOT_FOUND',
+  field: 'cellphone',
+  value: cellphone,
+});
 
-exports.AUTHENTICATION_ERROR_PASSWORD_MISMATCH = {
+export const authenticationErrorPasswordMismatch = (password) => ({
   code: 'AUTHENTICATION_ERROR_PASSWORD_MISMATCH',
-};
+  field: 'password',
+  value: password,
+});
 
-exports.translatedError = (req, res, { err, statusCode = 401 }) =>
+export const translatedError = (req, res, { err, statusCode = 401 }) =>
   res.status(statusCode).json(
     translate.error(err, req.locale, {})
   );
