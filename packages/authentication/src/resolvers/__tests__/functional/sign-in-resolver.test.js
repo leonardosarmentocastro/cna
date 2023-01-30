@@ -8,7 +8,7 @@ import { translate } from '@leonardosarmentocastro/i18n';
 import { isRequiredValidator } from '@leonardosarmentocastro/validate';
 
 import {
-  authenticationErrorCellphoneNotFound,
+  authenticationErrorCellphoneNumberNotFound,
   authenticationErrorPasswordMismatch,
 } from '../../../errors.js';
 import { DEFAULTS } from '../../../defaults.js';
@@ -47,7 +47,7 @@ test('(200) must succeed on authenticating the user and signing a jwt token for 
 
   const response = await got.post(URL, {
     json: {
-      cellphone: VALID_DOC.authentication.cellphone,
+      cellphoneNumber: VALID_DOC.authentication.cellphoneNumber,
       password: VALID_DOC.authentication.password,
     },
     headers,
@@ -62,10 +62,10 @@ test('(200) must succeed on authenticating the user and signing a jwt token for 
 });
 
 // Unhappy path tests
-[ 'cellphone', 'password' ].forEach(field => {
+[ 'cellphoneNumber', 'password' ].forEach(field => {
   test(`(400) must return an error when not providing the field "${field}" on request body`, t => {
-    const { cellphone, password } = VALID_DOC.authentication;
-    const authenticationPayload = { cellphone, password, [field]: undefined };
+    const { cellphoneNumber, password } = VALID_DOC.authentication;
+    const authenticationPayload = { cellphoneNumber, password, [field]: undefined };
 
     return got.post(URL, { json: authenticationPayload, headers })
       .catch(error => {
@@ -77,17 +77,17 @@ test('(200) must succeed on authenticating the user and signing a jwt token for 
   });
 });
 
-test('(404) must return an error when providing an "cellphone" that is not registered for any user', t => {
-  const cellphone = `not-${VALID_DOC.authentication.cellphone}`;
+test('(404) must return an error when providing an "cellphoneNumber" that is not registered for any user', t => {
+  const cellphoneNumber = `not-${VALID_DOC.authentication.cellphoneNumber}`;
   const { password } = VALID_DOC.authentication;
 
   return got.post(URL, {
-    json: { cellphone, password },
+    json: { cellphoneNumber, password },
     headers
   })
   .catch(error => {
     t.assert(error.response.statusCode == 404);
-    t.deepEqual(JSON.parse(error.response.body), translate.error(authenticationErrorCellphoneNotFound(cellphone), LOCALE, {}));
+    t.deepEqual(JSON.parse(error.response.body), translate.error(authenticationErrorCellphoneNumberNotFound(cellphoneNumber), LOCALE, {}));
   });
 });
 
@@ -95,11 +95,11 @@ test('(404) must return an error when providing a "password" that mismatches use
   await t.context.model.create(VALID_DOC);
   t.assert((await getDocsSavedOnDatabase(t)).length === 1);
 
-  const cellphone = VALID_DOC.authentication.cellphone;
+  const cellphoneNumber = VALID_DOC.authentication.cellphoneNumber;
   const password = `not-${VALID_DOC.authentication.password}`;
 
   return got.post(URL, {
-    json: { cellphone, password },
+    json: { cellphoneNumber, password },
     headers
   })
   .catch(error => {

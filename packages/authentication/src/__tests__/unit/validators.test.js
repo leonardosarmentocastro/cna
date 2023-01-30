@@ -3,7 +3,7 @@ import { translate, $translations } from '@leonardosarmentocastro/i18n';
 
 import {
   areValidTokensValidator,
-  isValidCellphoneValidator,
+  isValidCellphoneNumberValidator,
 } from '../../validators.js';
 
 const translations = $translations();
@@ -22,16 +22,16 @@ availableLanguages.map(language => {
     });
   });
 
-  test(`(isValidCellphoneValidator) translation for validator must be set on translation files for language "${language}"`, t => {
-    const doc = { cellphone: 'invalid cellphone 123-123-123' };
-    const { validator, ...err } = isValidCellphoneValidator(doc);
+  test(`(isValidCellphoneNumberValidator) translation for validator must be set on translation files for language "${language}"`, t => {
+    const doc = { cellphoneNumber: 'invalid cellphone number 123-123-123' };
+    const { validator, ...err } = isValidCellphoneNumberValidator(doc);
     const translation = translate.error(err, language, doc);
 
     t.deepEqual(translation, {
-      code: 'AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE',
-      field: 'cellphone',
-      value: doc.cellphone,
-      message: translate.get('AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE', language, { ...doc, ...err }),
+      code: 'AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER',
+      field: 'cellphoneNumber',
+      value: doc.cellphoneNumber,
+      message: translate.get('AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER', language, { ...doc, ...err }),
     });
   });
 });

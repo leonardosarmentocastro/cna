@@ -1,12 +1,12 @@
 # @leonardosarmentocastro/authentication
-AUTHENTICATION_ERROR_CELLPHONE_NOT_FOUND: Autenticação falhou pois não há nenhum usuário registrado com este número de celular.
+AUTHENTICATION_ERROR_CELLPHONE_NUMBER_NOT_FOUND: Autenticação falhou pois não há nenhum usuário registrado com este número de celular.
 AUTHENTICATION_ERROR_PASSWORD_MISMATCH: Autenticação falhou pois a senha fornecida não corresponde a senha do usuário.
 AUTHENTICATION_ERROR_PASSWORD_NOT_STRONG: Autenticação falhou pois a senha não é forte o bastante.
 AUTHENTICATION_ERROR_TOKEN_EXPIRED: Autenticação falhou pois o token está expirado.
 AUTHENTICATION_ERROR_TOKEN_INVALID: Autenticação falhou pois o token é inválido.
 AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Autenticação falhou pois o token ainda não pode ser usado.
 AUTHORIZATION_ERROR_INVALID_TOKEN: Você não tem permissão para acessar rotas privadas com um token de autorização inválido.
-AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE: Autenticação falhou pois o número de celular informado é inválido ("{value}").
+AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER: Autenticação falhou pois o número de celular informado é inválido ("{value}").
 AUTHENTICATION_VALIDATOR_ERROR_INVALID_TOKENS: Autenticação falhou pois um ou mais tokens informados são inválidos.
 
 # @leonardosarmentocastro/pagination

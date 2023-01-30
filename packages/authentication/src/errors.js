@@ -1,9 +1,9 @@
 import { translate } from '@leonardosarmentocastro/i18n';
 
-export const authenticationErrorCellphoneNotFound = (cellphone) => ({
-  code: 'AUTHENTICATION_ERROR_CELLPHONE_NOT_FOUND',
-  field: 'cellphone',
-  value: cellphone,
+export const authenticationErrorCellphoneNumberNotFound = (cellphoneNumber) => ({
+  code: 'AUTHENTICATION_ERROR_CELLPHONE_NUMBER_NOT_FOUND',
+  field: 'cellphoneNumber',
+  value: cellphoneNumber,
 });
 
 export const authenticationErrorPasswordMismatch = (password) => ({

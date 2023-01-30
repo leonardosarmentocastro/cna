@@ -4,19 +4,19 @@ import { DEFAULTS } from '../defaults.js';
 import { encrypter } from '../encrypter.js';
 import {
   translatedError,
-  authenticationErrorCellphoneNotFound,
+  authenticationErrorCellphoneNumberNotFound,
   authenticationErrorPasswordMismatch,
 } from '../errors.js';
 
 export const signInResolver = (model = DEFAULTS.model) => async (req, res, next) => {
   try {
-    const constraints = [ ...[ 'cellphone', 'password' ].map(field => isRequiredValidator(field)) ];
+    const constraints = [ ...[ 'cellphoneNumber', 'password' ].map(field => isRequiredValidator(field)) ];
     const err = await validate(constraints, req.body);
     if (err) throw { err, statusCode: 400 };
 
-    const { cellphone, password } = req.body;
-    const doc = await model.findOne({ 'authentication.cellphone': cellphone });
-    if (!doc) throw { err: authenticationErrorCellphoneNotFound(cellphone), statusCode: 404 };
+    const { cellphoneNumber, password } = req.body;
+    const doc = await model.findOne({ 'authentication.cellphoneNumber': cellphoneNumber });
+    if (!doc) throw { err: authenticationErrorCellphoneNumberNotFound(cellphoneNumber), statusCode: 404 };
 
     const hasMatched = await encrypter.verify(doc.authentication.password, password);
     if (!hasMatched) throw { err: authenticationErrorPasswordMismatch(password), statusCode: 404 };

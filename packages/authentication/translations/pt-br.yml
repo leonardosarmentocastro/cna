@@ -1,13 +1,19 @@
-AUTHENTICATION_ERROR_CELLPHONE_NOT_FOUND: Autenticação falhou pois não há nenhum usuário registrado com este número de celular ("{value}").
+AUTHENTICATION_ERROR_CELLPHONE_NUMBER_NOT_FOUND: Autenticação falhou pois não há nenhum usuário registrado com este número de celular ("{value}").
 AUTHENTICATION_ERROR_PASSWORD_MISMATCH: Autenticação falhou pois a senha fornecida não corresponde a senha do usuário.
 AUTHENTICATION_ERROR_TOKEN_EXPIRED: Autenticação falhou pois o token está expirado.
 AUTHENTICATION_ERROR_TOKEN_INVALID: Autenticação falhou pois o token é inválido.
 AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Autenticação falhou pois o token ainda não pode ser usado.
 
 # validators
-AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE: Autenticação falhou pois o número de celular informado é inválido ("{value}").
+AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER: Autenticação falhou pois o número de celular informado é inválido ("{value}").
 AUTHENTICATION_VALIDATOR_ERROR_INVALID_TOKENS: Autenticação falhou pois um ou mais tokens informados são inválidos.
 # AUTHENTICATION_VALIDATOR_ERROR_INVALID_USE_CHOICE: // TODO: provide a way to register using email
+
+# 2FA
+AUTHENTICATION_SMS_2FA_CANCEL_UNEXPECTED_ERROR: Verificação por SMS não pode ser cancelada para a requisição "{requestId}".
+AUTHENTICATION_SMS_2FA_CHECK_UNEXPECTED_ERROR: Checagem de verificação de SMS para a requisição "{requestId}" falhou.
+AUTHENTICATION_SMS_2FA_CELLPHONE_NUMBER_ALREADY_REGISTERED: Não é possível engatilhar a verificação por SMS visto que o número de celular escolhido "{cellphoneNumber}" já está sendo usado por outro usuário.
+AUTHENTICATION_SMS_2FA_VERIFICATION_UNEXPECTED_ERROR: Verificação de SMS falhou para o número de celular "{cellphoneNumber}".
 
 # @leonardosarmentocastro/validate
 VALIDATOR_ERROR_PASSWORD_NOT_STRONG: Senha não é forte o bastante.

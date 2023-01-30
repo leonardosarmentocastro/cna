@@ -1,13 +1,19 @@
-AUTHENTICATION_ERROR_CELLPHONE_NOT_FOUND: Authentication failed as no user is registered with the provided cellphone ("{value}").
+AUTHENTICATION_ERROR_CELLPHONE_NUMBER_NOT_FOUND: Authentication failed as no user is registered with the provided cellphone ("{value}").
 AUTHENTICATION_ERROR_PASSWORD_MISMATCH: Authentication failed as the provided password mismatches user's password.
 AUTHENTICATION_ERROR_TOKEN_EXPIRED: Authentication failed as token is expired.
 AUTHENTICATION_ERROR_TOKEN_INVALID: Authentication failed as token is invalid.
 AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Authentication failed as token is still not allowed to be used.
 
 # validators
-AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE: Authentication failed as provided cellphone is invalid ("{value}").
+AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER: Authentication failed as provided cellphone is invalid ("{value}").
 AUTHENTICATION_VALIDATOR_ERROR_INVALID_TOKENS: Authentication failed as one or more of provided tokens are invalid.
 # AUTHENTICATION_VALIDATOR_ERROR_INVALID_USE_CHOICE: // TODO: provide a way to register using email
+
+# 2FA
+AUTHENTICATION_SMS_2FA_CANCEL_UNEXPECTED_ERROR: SMS verication couldn't be canceled for request "{requestId}".
+AUTHENTICATION_SMS_2FA_CHECK_UNEXPECTED_ERROR: SMS verification check for request "{requestId}" failed.
+AUTHENTICATION_SMS_2FA_CELLPHONE_NUMBER_ALREADY_REGISTERED: Can't trigger a SMS verification as the provided cellphone number "{cellphoneNumber}" is already being used by another user.
+AUTHENTICATION_SMS_2FA_VERIFICATION_UNEXPECTED_ERROR: SMS verification failed for number "{cellphoneNumber}".
 
 # @leonardosarmentocastro/validate
 VALIDATOR_ERROR_PASSWORD_NOT_STRONG: Password is not strong enough.

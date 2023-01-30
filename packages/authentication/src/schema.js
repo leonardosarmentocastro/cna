@@ -7,7 +7,7 @@ import {
 
 import { encrypter } from './encrypter.js';
 import {
-  isValidCellphoneValidator,
+  isValidCellphoneNumberValidator,
   // isValidUseChoiceValidator, // TODO: provide a way to register using email
   areValidTokensValidator,
 } from './validators.js';
@@ -15,7 +15,7 @@ import {
 // Schema definitions
 export const authenticationSchema = new Mongoose.Schema({
   _id: false,
-  cellphone: String,
+  cellphoneNumber: String,
   // email: String, // TODO: provide a way to register using email
   // use: String, // TODO: provide a way to register using email
   password: String,
@@ -34,12 +34,12 @@ authenticationSchema.pre('save', async function() {
 authenticationSchema.post('validate', async (doc, next) => {
   const constraints = [
     ...[
-      'cellphone',
+      'cellphoneNumber',
       'password',
       // 'use', // TODO: provide a way to register using email
     ].map(field => isRequiredValidator(field)),
     // isValidUseChoiceValidator, // TODO: provide a way to register using email
-    isValidCellphoneValidator,
+    isValidCellphoneNumberValidator,
     isPasswordStrongValidator,
     areValidTokensValidator,
   ];

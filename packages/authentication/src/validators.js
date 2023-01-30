@@ -6,14 +6,14 @@ import util from 'util';
 
 const verify = util.promisify(jwt.verify);
 
-export const isValidCellphoneValidator = (doc) => ({
-  code: 'AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE',
-  field: 'cellphone',
-  value: doc.cellphone,
+export const isValidCellphoneNumberValidator = (doc) => ({
+  code: 'AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER',
+  field: 'cellphoneNumber',
+  value: doc.cellphoneNumber,
   validator: () => {
     // ^[\+]?[0-9]{2}[(]?[0-9]{2}[)]?[-\s\.]?[0-9]{5}[-\s\.]?[0-9]{4}$
     const regex = /^[\+][0-9]{2}[\s]?[0-9]{2}[\s]?[\s]?[0-9]{5}[\s]?[0-9]{4}$/;
-    const isValid = regex.test(doc.cellphone);
+    const isValid = regex.test(doc.cellphoneNumber);
 
     return isValid;
   },

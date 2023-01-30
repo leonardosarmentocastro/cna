@@ -2,7 +2,7 @@ import test from 'ava';
 import { translate, $translations } from '@leonardosarmentocastro/i18n';
 
 import {
-  authenticationErrorCellphoneNotFound,
+  authenticationErrorCellphoneNumberNotFound,
   authenticationErrorPasswordMismatch,
 } from '../../errors.js';
 
@@ -10,16 +10,16 @@ const translations = $translations();
 const availableLanguages = translations.getAvailableLanguages();
 
 availableLanguages.map(language => {
-  test(`(authenticationErrorCellphoneNotFound) translation for error must be set on translation files for language "${language}"`, t => {
-    const cellphone = '5512000001111';
-    const err = authenticationErrorCellphoneNotFound(cellphone);
-    const translation = translate.error(err, language, cellphone);
+  test(`(authenticationErrorCellphoneNumberNotFound) translation for error must be set on translation files for language "${language}"`, t => {
+    const cellphoneNumber = '5512000001111';
+    const err = authenticationErrorCellphoneNumberNotFound(cellphoneNumber);
+    const translation = translate.error(err, language, cellphoneNumber);
 
     t.deepEqual(translation, {
-      code: 'AUTHENTICATION_ERROR_CELLPHONE_NOT_FOUND',
-      field: 'cellphone',
-      value: cellphone,
-      message: translate.get('AUTHENTICATION_ERROR_CELLPHONE_NOT_FOUND', language, err),
+      code: 'AUTHENTICATION_ERROR_CELLPHONE_NUMBER_NOT_FOUND',
+      field: 'cellphoneNumber',
+      value: cellphoneNumber,
+      message: translate.get('AUTHENTICATION_ERROR_CELLPHONE_NUMBER_NOT_FOUND', language, err),
     });
   });
 
