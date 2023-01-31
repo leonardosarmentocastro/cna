@@ -26,15 +26,35 @@ test.afterEach(cleanUp);
 // Tests
 /////
 test('model creation must succeeds when not requiring 2FA', async t => {
-  t.assert((await getEntriesOnDatabase()).length === 0);
-  await new TestingModel({
+  const preparedModel = {
     ...VALID_DOC,
     authentication: {
       ...VALID_DOC.authentication,
       require2FA: false,
     },
-  }).save();
+  };
+
+  t.assert((await getEntriesOnDatabase()).length === 0);
+  const createdDoc = await new TestingModel(preparedModel).save();
   t.assert((await getEntriesOnDatabase()).length === 1);
+
+  const {
+    id,
+    createdAt,
+    updatedAt,
+    ...rest
+  } = createdDoc.toObject({ sensitive: false });
+
+  const withoutPassword = (object) => JSON.parse(JSON.stringify({
+    ...object,
+    authentication: {
+      ...object.authentication,
+      password: undefined,
+    },
+  }))
+  const actualDoc = withoutPassword(rest);
+  const expectedDoc = withoutPassword(preparedModel);
+  t.deepEqual(actualDoc, expectedDoc);
 });
 
 [

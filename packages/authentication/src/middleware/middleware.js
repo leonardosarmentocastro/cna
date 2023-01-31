@@ -3,13 +3,13 @@ import jwt from 'jsonwebtoken';
 
 import { translatedError } from '../errors.js';
 import { validate } from './validate.js';
+import { getAuthenticationToken } from '../utils.js';
 
-// TODO: functional test it.
 export const authenticationMiddleware = async (req, res, next) => {
-  const [ type, authenticationToken ] = req.header('Authorization').trim().split(' ');
+  const authenticationToken = getAuthenticationToken(req);
 
   const err = await validate(authenticationToken);
-  if (err) return translatedError(req, res, { err });
+  if (err) return translatedError(req, res, { err, statusCode: 401 });
 
   // Reference:
   // "Registered claims": https://tools.ietf.org/html/rfc7519#section-4.1
@@ -17,10 +17,12 @@ export const authenticationMiddleware = async (req, res, next) => {
   const decodedToken = jwt.decode(authenticationToken, { json: true });
   req.authentication = {
     expirationTime: dayjs(decodedToken.exp).toISOString(), // NumericDate (1408621000 -> "1970-01-17T07:17:01.000Z")
+    doc: undefined, // The subject database model registry
     issuer: decodedToken.iss, // String ("CREATE_NODEJS_APP/AUTHENTICATION")
     issuedAt: dayjs(decodedToken.iat).toISOString(), // NumericDate (1408621000 -> "1970-01-17T07:17:01.000Z")
+    payload: decodedToken.payload, // Anything serializable.
     subject: decodedToken.sub, // ObjectId (which refers to "userId")
-    payload: decodedToken.payload // Anything serializable.
+    token: authenticationToken,
   };
 
   next();

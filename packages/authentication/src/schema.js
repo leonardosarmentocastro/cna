@@ -19,7 +19,7 @@ export const authenticationSchema = new Mongoose.Schema({
   // email: String, // TODO: provide a way to register using email
   // use: String, // TODO: provide a way to register using email
   password: String,
-  require2FA: { type: Boolean, default: false },
+  require2FA: { type: Boolean, default: false }, // TODO: probably not required.
   tokens: [ String ],
 });
 

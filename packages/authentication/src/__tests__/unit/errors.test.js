@@ -4,6 +4,7 @@ import { translate, $translations } from '@leonardosarmentocastro/i18n';
 import {
   authenticationErrorCellphoneNumberNotFound,
   authenticationErrorPasswordMismatch,
+  authenticationErrorRegistryForTokenNotFound,
 } from '../../errors.js';
 
 const translations = $translations();
@@ -33,6 +34,18 @@ availableLanguages.map(language => {
       field: 'password',
       value: password,
       message: translate.get('AUTHENTICATION_ERROR_PASSWORD_MISMATCH', language, err),
+    });
+  });
+
+  test(`(authenticationErrorRegistryForTokenNotFound) translation for error must be set on translation files for language "${language}"`, t => {
+    const authenticationToken = 'valid-token-for-missing-user.123123123';
+    const err = authenticationErrorRegistryForTokenNotFound(authenticationToken);
+    const translation = translate.error(err, language, authenticationToken);
+
+    t.deepEqual(translation, {
+      authenticationToken,
+      code: 'AUTHENTICATION_ERROR_REGISTRY_FOR_TOKEN_NOT_FOUND',
+      message: translate.get('AUTHENTICATION_ERROR_REGISTRY_FOR_TOKEN_NOT_FOUND', language, err),
     });
   });
 });

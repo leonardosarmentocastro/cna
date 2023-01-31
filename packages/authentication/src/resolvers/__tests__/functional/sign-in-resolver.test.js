@@ -56,7 +56,8 @@ test('(200) must succeed on authenticating the user and signing a jwt token for 
   t.assert(response.statusCode == 200);
   t.assert((await getDocsSavedOnDatabase(t)).length === 1);
 
-  const authenticationToken = response.headers.authorization;
+  const [ type, authenticationToken ] = response.headers.authorization.trim().split(' ');
+  t.assert(type === 'Bearer');
   t.truthy(authenticationToken);
   t.notThrows(() => jwt.verify(authenticationToken, process.env.AUTHENTICATION_SECRET));
 });

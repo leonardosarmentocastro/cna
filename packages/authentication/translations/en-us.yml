@@ -1,5 +1,6 @@
 AUTHENTICATION_ERROR_CELLPHONE_NUMBER_NOT_FOUND: Authentication failed as no user is registered with the provided cellphone ("{value}").
 AUTHENTICATION_ERROR_PASSWORD_MISMATCH: Authentication failed as the provided password mismatches user's password.
+AUTHENTICATION_ERROR_REGISTRY_FOR_TOKEN_NOT_FOUND: Authentication sign-out failed as no user exists for the given authentication token.
 AUTHENTICATION_ERROR_TOKEN_EXPIRED: Authentication failed as token is expired.
 AUTHENTICATION_ERROR_TOKEN_INVALID: Authentication failed as token is invalid.
 AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Authentication failed as token is still not allowed to be used.

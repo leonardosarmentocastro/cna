@@ -37,12 +37,19 @@ const getDocsSavedOnDatabase = (t) => t.context.model.find({});
 test('(200) must succeed on creating the authentication doc and signing a jwt token for it', async t => {
   t.assert((await getDocsSavedOnDatabase(t)).length === 0);
 
-  const response = await got.post(URL, { json: VALID_DOC });
+  const payload = VALID_DOC;
+  const response = await got.post(URL, { json: payload });
 
   t.assert(response.statusCode == 200);
   t.assert((await getDocsSavedOnDatabase(t)).length === 1);
 
-  const authenticationToken = response.headers.authorization;
+  const [ type, authenticationToken ] = response.headers.authorization.trim().split(' ');
+  t.assert(type === 'Bearer');
   t.truthy(authenticationToken);
   t.notThrows(() => jwt.verify(authenticationToken, process.env.AUTHENTICATION_SECRET));
+
+  const decodedToken = jwt.decode(authenticationToken, { json: true });
+  const id = decodedToken.sub;
+  const foundDoc = await t.context.model.findById(id);
+  t.truthy(foundDoc.authentication.tokens.some(token => authenticationToken === token));
 });

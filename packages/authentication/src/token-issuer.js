@@ -11,6 +11,7 @@ export const tokenIssuer = {
   sign: (authenticated = {}, options = DEFAULT.options) => jwt.sign(
     {
       payload: {}, // TODO: authenticated's "role"
+      // payload: authenticated, // TODO: in case we want to share authenticated user data inside the token
     },
     process.env.AUTHENTICATION_SECRET,
     {

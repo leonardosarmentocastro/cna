@@ -3,13 +3,14 @@ const { sanitizer } = require('@leonardosarmentocastro/database');
 const { DEFAULTS } = require('../defaults');
 const { translatedError } = require('../errors');
 
-exports.createResolver = (model = DEFAULTS.model) => async (req, res, next) => {
+// TODO: functional test "options" parameter being sent to transformation "toObject" (used in "authentication" package)
+exports.createResolver = (model = DEFAULTS.model, options = { sensitive: true }) => async (req, res, next) => {
   const payload = sanitizer(req.body);
   const doc = new model(payload);
 
   try {
     const savedDoc = await doc.save();
-    const transformedDoc = savedDoc.toObject();
+    const transformedDoc = savedDoc.toObject(options);
     req.createdDoc = transformedDoc;
 
     next();

@@ -12,6 +12,11 @@ export const authenticationErrorPasswordMismatch = (password) => ({
   value: password,
 });
 
+export const authenticationErrorRegistryForTokenNotFound = (authenticationToken) => ({
+  code: 'AUTHENTICATION_ERROR_REGISTRY_FOR_TOKEN_NOT_FOUND',
+  authenticationToken
+});
+
 export const translatedError = (req, res, { err, statusCode = 401 }) =>
   res.status(statusCode).json(
     translate.error(err, req.locale, {})

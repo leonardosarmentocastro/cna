@@ -5,9 +5,9 @@ AUTHENTICATION_ERROR_PASSWORD_NOT_STRONG: Authentication failed as password is n
 AUTHENTICATION_ERROR_TOKEN_EXPIRED: Authentication failed as token is expired.
 AUTHENTICATION_ERROR_TOKEN_INVALID: Authentication failed as token is invalid.
 AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Authentication failed as token is still not allowed to be used.
-AUTHORIZATION_ERROR_INVALID_TOKEN: You are not allowed to access private routes with an invalid authorization token.
 AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER: Authentication failed as provided cellphone is invalid ("{value}").
 AUTHENTICATION_VALIDATOR_ERROR_INVALID_TOKENS: Authentication failed as one or more of provided tokens are invalid.
+AUTHORIZATION_ERROR_INVALID_TOKEN: You are not allowed to access private routes with an invalid authorization token.
 
 # @leonardosarmentocastro/pagination
 PAGINATION_ERROR_QUERY_PARAMETER_INVALID: The query parameter "{field}" is invalid.

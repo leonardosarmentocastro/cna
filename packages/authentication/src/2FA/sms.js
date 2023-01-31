@@ -15,7 +15,7 @@ export const $sms = ({ __vonage__ = vonage }) => ({
   cancel: async (requestId) => {
     try {
       const response = await __vonage__.verify.cancel(requestId);
-      console.debug('[authentication::sms] cancel', response);
+      // console.debug('[authentication::sms] cancel', response);
 
       return response;
     } catch(err) {
@@ -25,7 +25,7 @@ export const $sms = ({ __vonage__ = vonage }) => ({
   check: async (requestId, pin) => {
     try {
       const response = await __vonage__.verify.check(requestId, pin);
-      console.debug('[authentication::sms] check', response);
+      // console.debug('[authentication::sms] check', response);
 
       return response;
     } catch(err) {
@@ -38,7 +38,7 @@ export const $sms = ({ __vonage__ = vonage }) => ({
         number: cellphoneNumber,
         brand: process.env.SMS_2FA_SENDER_NAME,
       });
-      console.debug('[2FA::SMS] verify', requestId);
+      // console.debug('[2FA::SMS] verify', requestId);
 
       return requestId;
     } catch(err) {

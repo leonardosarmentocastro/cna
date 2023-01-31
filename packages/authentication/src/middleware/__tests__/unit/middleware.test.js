@@ -24,9 +24,11 @@ test('must attach decoded data from authorization token to "req.authentication"'
   const decodedToken = jwt.decode(authenticationToken, { json: true });
   t.deepEqual(req.authentication, {
     expirationTime: dayjs(decodedToken.exp).toISOString(),
+    doc: undefined,
     issuer: 'authentication-middleware',
     issuedAt: dayjs(decodedToken.iat).toISOString(),
-    subject: 'userId.123456',
     payload: { role: 'admin' },
+    subject: 'userId.123456',
+    token: authenticationToken,
   });
 });

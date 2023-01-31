@@ -8,14 +8,14 @@ export const SMS_2FA_VERIFICATION_PIN_MOCK = 'PIN_00001';
 const VONAGE_MOCK = {
   verify: {
     cancel: async (requestId) => {
-      console.debug('[MOCK] __vonage__.cancel', requestId);
+      // console.debug('[MOCK] __vonage__.cancel', requestId);
       const isTestingRequestId = (requestId === SMS_2FA_VERIFICATION_REQUEST_ID_MOCK);
       if (!isTestingRequestId) return Promise.reject({ err: 'Something went wrong' });
 
       return Promise.resolve();
     },
     check: async (requestId, pin) => {
-      console.debug('[MOCK] __vonage__.check', requestId, pin);
+      // console.debug('[MOCK] __vonage__.check', requestId, pin);
       const isTestingRequestId = (requestId === SMS_2FA_VERIFICATION_REQUEST_ID_MOCK);
       const isTestingPIN = (pin === SMS_2FA_VERIFICATION_PIN_MOCK);
 
@@ -23,7 +23,7 @@ const VONAGE_MOCK = {
       return Promise.resolve();
     },
     start: async ({ number, brand }) => {
-      console.debug('[MOCK] __vonage__.start', number, brand);
+      // console.debug('[MOCK] __vonage__.start', number, brand);
       const requestId = SMS_2FA_VERIFICATION_REQUEST_ID_MOCK;
       const isTestingCellphoneNumber = (number === SMS_2FA_VERIFICATION_CELLPHONE_NUMBER_MOCK);
       const isTestingSender = (brand === SMS_2FA_VERIFICATION_SENDER_NAME_MOCK);
