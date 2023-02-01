@@ -33,7 +33,7 @@ availableLanguages.map(language => {
       field: 'cellphoneNumber',
       value: doc.cellphoneNumber,
       message: translate.get('AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER', language, { ...doc, ...err }),
-      CELLPHONE_NUMBER_VALIDATION_REGEX,
+      CELLPHONE_NUMBER_VALIDATION_REGEX: CELLPHONE_NUMBER_VALIDATION_REGEX.toString(),
     });
   });
 });

@@ -15,6 +15,7 @@ import { connect } from '../../connect.js';
 import { VALID_DOC } from '../../../__fixtures__/index.js';
 import { TestingModel } from '../../../defaults.js';
 import { sms2FAErrorCellphoneNumberAlreadyRegistered } from '../../errors.js';
+import { isValidCellphoneNumberValidator } from '../../../validators.js';
 
 // Setup
 const PORT = 8080;
@@ -61,6 +62,18 @@ test('(400) must return an error when required body attribute "cellphoneNumber" 
   return got.post(URL, { headers, json: payload })
     .catch(error => {
       const { validator, ...err } = isRequiredValidator('cellphoneNumber')(payload);
+
+      t.assert(error.response.statusCode == 400);
+      t.deepEqual(JSON.parse(error.response.body), translate.error(err, LOCALE, {}));
+    });
+});
+
+test('(400) must return an error when attribute "cellphoneNumber" is invalid', t => {
+  const payload = { cellphoneNumber: `+${SMS_2FA_VERIFICATION_CELLPHONE_NUMBER_MOCK}` };
+
+  return got.post(URL, { headers, json: payload })
+    .catch(error => {
+      const { validator, ...err } = isValidCellphoneNumberValidator(payload);
 
       t.assert(error.response.statusCode == 400);
       t.deepEqual(JSON.parse(error.response.body), translate.error(err, LOCALE, {}));

@@ -9,7 +9,6 @@ import { isValidCellphoneNumberValidator } from '../../validators.js';
 const sms = (process.env.NODE_ENV === 'test' ? SMS_2FA_MOCK : $sms({}));
 export const sms2FAVerifyResolver = (model = DEFAULTS.model) => async (req, res) => {
   try {
-    // TODO: FUNCTIONAL TEST `CELLPHONE` VALIDATOR
     const constraints = [ isRequiredValidator('cellphoneNumber'), isValidCellphoneNumberValidator ];
     const err = await validate(constraints, req.body);
     console.debug('@@@ err', err)

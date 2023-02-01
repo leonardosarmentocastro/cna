@@ -111,7 +111,7 @@ test('model creation must succeeds when not requiring 2FA', async t => {
         code: 'AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER',
         field: 'cellphoneNumber',
         value: cellphoneNumber,
-        CELLPHONE_NUMBER_VALIDATION_REGEX,
+        CELLPHONE_NUMBER_VALIDATION_REGEX: CELLPHONE_NUMBER_VALIDATION_REGEX.toString(),
       });
     }
 

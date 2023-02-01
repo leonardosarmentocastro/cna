@@ -6,12 +6,12 @@ import {
   sms2FAVerificationUnexpectedError,
 } from './errors.js';
 
-const vonage = new Vonage({
+const vonage = () => new Vonage({
   apiKey: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY,
   apiSecret: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET,
 });
 
-export const $sms = ({ __vonage__ = vonage }) => ({
+export const $sms = ({ __vonage__ = vonage() }) => ({
   cancel: async (requestId) => {
     try {
       const response = await __vonage__.verify.cancel(requestId);
@@ -34,6 +34,7 @@ export const $sms = ({ __vonage__ = vonage }) => ({
   },
   verify: async (cellphoneNumber) => {
     try {
+      console.log('[2FA::SMS] process.env', process.env);
       console.debug('[2FA::SMS] __vonage__', __vonage__);
       const { request_id: requestId } = await __vonage__.verify.start({
         number: cellphoneNumber,

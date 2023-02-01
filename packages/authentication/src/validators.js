@@ -19,7 +19,7 @@ export const isValidCellphoneNumberValidator = (doc) => ({
 
     return isValid;
   },
-  CELLPHONE_NUMBER_VALIDATION_REGEX,
+  CELLPHONE_NUMBER_VALIDATION_REGEX: CELLPHONE_NUMBER_VALIDATION_REGEX.toString(),
 });
 
 // TODO: provide a way to register using email
