@@ -30,7 +30,6 @@ const vonage = {
         command,
         error_text: errorText,
         status,
-        ...rest
       } = response.body;
       if (Number(status) !== 0) throw sms2FACancelUnexpectedError({
         requestId,
@@ -51,7 +50,6 @@ const vonage = {
 
       const {
         error_text: errorText,
-        request_id: requestId,
         status,
         ...rest
       } = response.body;
