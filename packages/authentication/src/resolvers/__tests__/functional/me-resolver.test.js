@@ -161,3 +161,42 @@ test('(404) must throw an error if the signed user on "authorization" header doe
 
   t.truthy(failed);
 });
+
+test('(404) must throw an error if the signed user on "authorization" header has previously signed out using that token', async t => {
+  t.assert((await getDocsSavedOnDatabase(t)).length === 0);
+
+  // signing up an registry
+  const toAuthenticate = VALID_DOC;
+  const response1 = await got.post(`${BASE_URL}/sign-up`, { json: toAuthenticate, headers: { ...HEADERS } });
+  t.assert(response1.statusCode == 200);
+
+  const [ type, authenticationToken ] = response1.headers.authorization.trim().split(' ');
+  t.assert(type === 'Bearer');
+  t.truthy(authenticationToken);
+  t.assert((await getDocsSavedOnDatabase(t)).length === 1);
+
+  // signing out the registry
+  const response2 = await got.post(`${BASE_URL}/sign-out`, {
+    headers: { ...HEADERS, 'Authorization': `Bearer ${authenticationToken}` },
+  });
+  t.assert(response2.statusCode == 200);
+
+  // fetching authenticated user data
+  let failed = false;
+
+  try {
+    await got.get(URL, {
+      headers: { ...HEADERS, 'Authorization': `Bearer ${authenticationToken}` },
+    });
+  } catch(err) {
+    failed = true;
+
+    t.assert(err.response.statusCode == 404);
+    t.deepEqual(
+      JSON.parse(err.response.body),
+      translate.error(authenticationErrorRegistryForTokenNotFound(authenticationToken), LOCALE, {})
+    );
+  }
+
+  t.truthy(failed);
+});

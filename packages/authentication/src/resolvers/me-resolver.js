@@ -8,7 +8,9 @@ export const meResolver = (model = DEFAULTS.model) => async (req, res, next) => 
   const id = req.authentication.subject;
   req.authentication.doc = await model.findById(id);
 
-  if (!req.authentication.doc) return translatedError(req, res, {
+  const noRegistryFound = !req.authentication.doc;
+  const noTokenFound = !req.authentication.doc?.authentication.tokens.some(token => token === req.authentication.token);
+  if (noRegistryFound || noTokenFound) return translatedError(req, res, {
     err: authenticationErrorRegistryForTokenNotFound(req.authentication.token),
     statusCode: 404,
   });
