@@ -1,4 +1,5 @@
 const { paginationMiddleware } = require('@leonardosarmentocastro/pagination');
+const pluralize = require('pluralize');
 
 const { DEFAULTS } = require('./defaults');
 const {
@@ -15,8 +16,9 @@ const { kebabCase } = require('./utils');
 // Injeta o model num método que executa os tests e gera documentação. Uma engenharia reversa.
 exports.crud = {
   connect(app, model = DEFAULTS.model) {
-    const { modelName } = model.collection; // "MaterialsCollection"
-    const basePath = `/${kebabCase(modelName)}`; // "/materials-collection"
+    const { modelName } = model.collection; // "DiscountCondition"
+    const pluralizedModelName = pluralize(modelName); // "DiscountConditions"
+    const basePath = `/${kebabCase(pluralizedModelName)}`; // "/discount-conditions"
     console.log(`[ crud::info ] creating routes for "${basePath}"`);
 
     app.route(basePath)

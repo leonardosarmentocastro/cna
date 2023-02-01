@@ -24,6 +24,7 @@
     "@leonardosarmentocastro/server": "^1.0.0",
     "@leonardosarmentocastro/validate": "^1.3.0",
     "mongoose": "6.5.0",
+    "pluralize": "^8.0.0",
     "validator": "^13.6.0"
   },
   "peerDependencies": {
