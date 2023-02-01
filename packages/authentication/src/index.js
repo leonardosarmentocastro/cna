@@ -1,4 +1,11 @@
-export * from './connect.js';
-export * from './errors.js';
-export * from './middleware.js';
-export * from './schema.js';
+import twoFactor from './2FA/index.js';
+import { connect } from './connect.js';
+import { authenticationMiddleware } from './middleware/index.js';
+import { authenticationSchema } from './schema.js';
+
+export default {
+  authenticationMiddleware,
+  authenticationSchema,
+  connect,
+  twoFactor,
+};
