@@ -2,7 +2,7 @@
   "name": "@leonardosarmentocastro/authentication",
   "description": "authentication",
   "version": "1.4.1",
-  "exports": "./index.js",
+  "exports": "./src/index.js",
   "type": "module",
   "engines": {
     "node": ">=14.16"
