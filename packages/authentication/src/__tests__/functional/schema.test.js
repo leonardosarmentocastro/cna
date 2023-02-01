@@ -5,6 +5,7 @@ import { TestingModel } from '../../defaults.js';
 import { encrypter } from '../../encrypter.js';
 import { tokenIssuer } from '../../token-issuer.js';
 import { VALID_DOC } from '../../__fixtures__/index.js';
+import { CELLPHONE_NUMBER_VALIDATION_REGEX } from '../../validators.js';
 
 // Preparations
 /////
@@ -85,12 +86,12 @@ test('model creation must succeeds when not requiring 2FA', async t => {
 
 [
   '11999991111', // missing country code
-  '+55999991111', // missing DDD
+  '55999991111', // missing DDD
   '999991111', // missing country code and DDD
-  '+55 11) 99999 1111', // missing "("
-  '+55 (11 99999 1111', // missing ")"
-  '+55 (11) 99999 1111', // only numbers are allowed (excepting "+" and white spaces)
-  '+55 (11) 99999-1111', // only numbers are allowed (excepting "+" and white spaces)
+  '55 11) 99999 1111', // missing "("
+  '55 (11 99999 1111', // missing ")"
+  '55 (11) 99999 1111', // only numbers are allowed
+  '55 (11) 99999-1111', // only numbers are allowed
 ].map(cellphoneNumber =>
   test(`model creation must fail if "cellphoneNumber" is not valid (e.g. ${cellphoneNumber})`, async t => {
     t.assert((await getEntriesOnDatabase()).length === 0);
@@ -110,6 +111,7 @@ test('model creation must succeeds when not requiring 2FA', async t => {
         code: 'AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER',
         field: 'cellphoneNumber',
         value: cellphoneNumber,
+        CELLPHONE_NUMBER_VALIDATION_REGEX,
       });
     }
 
