@@ -7,8 +7,8 @@ import {
 } from './errors.js';
 
 const vonage = new Vonage({
-  apiKey: process.env.SMS_2FA_VONAGE_API_KEY,
-  apiSecret: process.env.SMS_2FA_VONAGE_API_SECRET,
+  apiKey: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY,
+  apiSecret: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET,
 });
 
 export const $sms = ({ __vonage__ = vonage }) => ({
@@ -36,7 +36,7 @@ export const $sms = ({ __vonage__ = vonage }) => ({
     try {
       const { request_id: requestId } = await __vonage__.verify.start({
         number: cellphoneNumber,
-        brand: process.env.SMS_2FA_SENDER_NAME,
+        brand: process.env.AUTHENTICATION_SMS_2FA_SENDER_NAME,
       });
       // console.debug('[2FA::SMS] verify', requestId);
 

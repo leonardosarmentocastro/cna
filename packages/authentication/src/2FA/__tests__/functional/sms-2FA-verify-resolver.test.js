@@ -22,9 +22,9 @@ const LOCALE = 'pt-br';
 const URL = `http://127.0.0.1:${PORT}/authentication/2FA/verify`;
 const headers = { 'accept-language': LOCALE };
 test.before('set required environment variables', t => {
-  process.env.SMS_2FA_VONAGE_API_KEY = 'api key'; // necessary in real world usage, but not in tests
-  process.env.SMS_2FA_VONAGE_API_SECRET = 'api secret'; // necessary in real world usage, but not in tests
-  process.env.SMS_2FA_SENDER_NAME = SMS_2FA_VERIFICATION_SENDER_NAME_MOCK; // necessary in real world usage, but not in tests
+  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY = 'api key'; // necessary in real world usage, but not in tests
+  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET = 'api secret'; // necessary in real world usage, but not in tests
+  process.env.AUTHENTICATION_SMS_2FA_SENDER_NAME = SMS_2FA_VERIFICATION_SENDER_NAME_MOCK; // necessary in real world usage, but not in tests
 });
 test.before('prepare: start api / connect to database', async t => {
   await database.connect();
