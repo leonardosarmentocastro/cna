@@ -12,7 +12,6 @@ export const sms2FACancelUnexpectedError = ({ errorText, requestId, status }) =>
   status,
 });
 
-// TODO: fix unit tests
 export const sms2FACheckUnexpectedError = ({
   errorText,
   pin,
@@ -26,7 +25,6 @@ export const sms2FACheckUnexpectedError = ({
   status,
 });
 
-// TODO: fix unit tests
 export const sms2FAVerificationUnexpectedError = ({ cellphoneNumber, errorText, status }) => ({
   code: 'AUTHENTICATION_SMS_2FA_VERIFICATION_UNEXPECTED_ERROR',
   cellphoneNumber,
