@@ -1,21 +1,21 @@
 import test from 'ava';
 import got from 'got';
+import nock from 'nock';
 import server from '@leonardosarmentocastro/server';
 import i18n from '@leonardosarmentocastro/i18n';
 import { database } from '@leonardosarmentocastro/database';
 import { translate } from '@leonardosarmentocastro/i18n';
 import { isRequiredValidator } from '@leonardosarmentocastro/validate';
 
+import { connect } from '../../../connect.js';
+import { VALID_DOC } from '../../../../__fixtures__/index.js';
+import { TestingModel } from '../../../../defaults.js';
+import { sms2FAErrorCellphoneNumberAlreadyRegistered } from '../../../errors.js';
+import { isValidCellphoneNumberValidator } from '../../../../validators.js';
 import {
-  SMS_2FA_VERIFICATION_REQUEST_ID_MOCK,
-  SMS_2FA_VERIFICATION_CELLPHONE_NUMBER_MOCK,
-  SMS_2FA_VERIFICATION_SENDER_NAME_MOCK,
-} from '../../__mocks__/sms.mock.js';
-import { connect } from '../../connect.js';
-import { VALID_DOC } from '../../../__fixtures__/index.js';
-import { TestingModel } from '../../../defaults.js';
-import { sms2FAErrorCellphoneNumberAlreadyRegistered } from '../../errors.js';
-import { isValidCellphoneNumberValidator } from '../../../validators.js';
+  SMS_2FA_BASE_URL,
+  SMS_START_2FA_VERIFICATION_PATH,
+} from '../../../sms-verification.js';
 
 // Setup
 const PORT = 8080;
@@ -23,9 +23,9 @@ const LOCALE = 'pt-br';
 const URL = `http://127.0.0.1:${PORT}/authentication/2FA/verify`;
 const headers = { 'accept-language': LOCALE };
 test.before('set required environment variables', t => {
-  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY = 'api key'; // necessary in real world usage, but not in tests
-  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET = 'api secret'; // necessary in real world usage, but not in tests
-  process.env.AUTHENTICATION_SMS_2FA_SENDER_NAME = SMS_2FA_VERIFICATION_SENDER_NAME_MOCK; // necessary in real world usage, but not in tests
+  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY = 'api key';
+  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET = 'api secret';
+  process.env.AUTHENTICATION_SMS_2FA_SENDER_NAME = 'sms sender name';
 });
 test.before('prepare: start api / connect to database', async t => {
   await database.connect();
@@ -47,13 +47,30 @@ test.after.always('teardown', t => t.context.api.close());
 // Happy path tests
 const getDocsSavedOnDatabase = (t) => t.context.model.find({});
 test('(200) must succeed on request cellphone number verification and return a request id for future check', async t => {
-  const response = await got.post(URL, {
+  const { cellphoneNumber } = VALID_DOC.authentication;
+  const requestId = 'abcdef0123456789abcdef0123456789';
+
+  const payload = {
+    country: 'BR',
+    api_key: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY,
+    api_secret: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET,
+    brand: process.env.AUTHENTICATION_SMS_2FA_SENDER_NAME,
+    code_length: 4,
+    lg: 'pt-br',
+    number: cellphoneNumber,
+  };
+  const response1 = { status: '0', request_id: requestId };
+  nock(SMS_2FA_BASE_URL)
+    .post(SMS_START_2FA_VERIFICATION_PATH, (body) => JSON.stringify(payload) === JSON.stringify(body))
+    .reply(200, response1);
+
+  const response2 = await got.post(URL, {
     headers,
-    json: { cellphoneNumber: SMS_2FA_VERIFICATION_CELLPHONE_NUMBER_MOCK },
+    json: { cellphoneNumber },
   });
 
-  t.assert(response.statusCode == 200);
-  t.deepEqual(JSON.parse(response.body), { requestId: SMS_2FA_VERIFICATION_REQUEST_ID_MOCK });
+  t.assert(response2.statusCode == 200);
+  t.deepEqual(JSON.parse(response2.body), { requestId });
 });
 
 test('(400) must return an error when required body attribute "cellphoneNumber" is missing', t => {
@@ -69,7 +86,8 @@ test('(400) must return an error when required body attribute "cellphoneNumber" 
 });
 
 test('(400) must return an error when attribute "cellphoneNumber" is invalid', t => {
-  const payload = { cellphoneNumber: `+${SMS_2FA_VERIFICATION_CELLPHONE_NUMBER_MOCK}` };
+  const { cellphoneNumber } = VALID_DOC.authentication;
+  const payload = { cellphoneNumber: `+${cellphoneNumber}` };
 
   return got.post(URL, { headers, json: payload })
     .catch(error => {

@@ -5,23 +5,33 @@ export const sms2FAErrorCellphoneNumberAlreadyRegistered = (cellphoneNumber) => 
   cellphoneNumber,
 });
 
-export const sms2FACancelUnexpectedError = ({ requestId, stacktrace }) => ({
+export const sms2FACancelUnexpectedError = ({ errorText, requestId, status }) => ({
   code: 'AUTHENTICATION_SMS_2FA_CANCEL_UNEXPECTED_ERROR',
+  errorText,
   requestId,
-  stacktrace,
+  status,
 });
 
-export const sms2FACheckUnexpectedError = ({ requestId, pid, stacktrace }) => ({
+// TODO: fix unit tests
+export const sms2FACheckUnexpectedError = ({
+  errorText,
+  pin,
+  requestId,
+  status,
+}) => ({
   code: 'AUTHENTICATION_SMS_2FA_CHECK_UNEXPECTED_ERROR',
-  pid,
+  errorText,
+  pin,
   requestId,
-  stacktrace
+  status,
 });
 
-export const sms2FAVerificationUnexpectedError = ({ cellphoneNumber, stacktrace }) => ({
+// TODO: fix unit tests
+export const sms2FAVerificationUnexpectedError = ({ cellphoneNumber, errorText, status }) => ({
   code: 'AUTHENTICATION_SMS_2FA_VERIFICATION_UNEXPECTED_ERROR',
   cellphoneNumber,
-  stacktrace,
+  errorText,
+  status,
 });
 
 export const translatedError = (req, res, { err, statusCode = 401 }) =>

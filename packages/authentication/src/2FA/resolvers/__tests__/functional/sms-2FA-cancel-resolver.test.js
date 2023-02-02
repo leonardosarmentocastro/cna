@@ -1,16 +1,18 @@
 import test from 'ava';
 import got from 'got';
+import nock from 'nock';
 import server from '@leonardosarmentocastro/server';
 import i18n from '@leonardosarmentocastro/i18n';
 import { database } from '@leonardosarmentocastro/database';
 import { translate } from '@leonardosarmentocastro/i18n';
 import { isRequiredValidator } from '@leonardosarmentocastro/validate';
 
+import { connect } from '../../../connect.js';
+import { TestingModel } from '../../../../defaults.js';
 import {
-  SMS_2FA_VERIFICATION_REQUEST_ID_MOCK,
-} from '../../__mocks__/sms.mock.js';
-import { connect } from '../../connect.js';
-import { TestingModel } from '../../../defaults.js';
+  SMS_2FA_BASE_URL,
+  SMS_CANCEL_2FA_VERIFICATION_PATH,
+} from '../../../sms-verification.js';
 
 // Setup
 const PORT = 8080;
@@ -18,8 +20,9 @@ const LOCALE = 'pt-br';
 const URL = `http://127.0.0.1:${PORT}/authentication/2FA/cancel`;
 const headers = { 'accept-language': LOCALE };
 test.before('set required environment variables', t => {
-  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY = 'api key'; // necessary in real world usage, but not in tests
-  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET = 'api secret'; // necessary in real world usage, but not in tests
+  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY = 'api key';
+  process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET = 'api secret';
+  process.env.AUTHENTICATION_SMS_2FA_SENDER_NAME = 'sms sender name';
 });
 test.before('prepare: start api / connect to database', async t => {
   await database.connect();
@@ -40,20 +43,31 @@ test.after.always('teardown', t => t.context.api.close());
 
 // Happy path tests
 test('(200) must succeed on checking a sms verification request', async t => {
-  const response = await got.post(URL, {
-    headers,
-    json: { requestId: SMS_2FA_VERIFICATION_REQUEST_ID_MOCK },
-  });
+  const requestId = 'abcdef0123456789abcdef0123456789';
+  const command = 'cancel';
 
-  t.assert(response.statusCode == 200);
+  const payload = {
+    api_key: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY,
+    api_secret: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET,
+    request_id: requestId,
+    cmd: command,
+  };
+  const response1 = { command, status: "0" };
+  nock(SMS_2FA_BASE_URL)
+    .post(SMS_CANCEL_2FA_VERIFICATION_PATH, (body) => JSON.stringify(payload) === JSON.stringify(body))
+    .reply(200, response1);
+
+  const response2 = await got.post(URL, {
+    headers,
+    json: { requestId },
+  });
+  t.assert(response2.statusCode == 200);
 });
 
 ['requestId'].map(field =>
   test(`(400) must return an error when required body attribute "${field}" is missing`, t => {
-    const payload = {
-      requestId: SMS_2FA_VERIFICATION_REQUEST_ID_MOCK,
-      [field]: undefined,
-    };
+    const requestId = 'abcdef0123456789abcdef0123456789';
+    const payload = { requestId, [field]: undefined };
 
     return got.post(URL, { headers, json: payload })
       .catch(error => {
