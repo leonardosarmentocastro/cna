@@ -10,7 +10,7 @@ import { isRequiredValidator } from '@leonardosarmentocastro/validate';
 import { connect } from '../../../connect.js';
 import { VALID_DOC } from '../../../../__fixtures__/index.js';
 import { TestingModel } from '../../../../defaults.js';
-import { sms2FAErrorCellphoneNumberAlreadyRegistered } from '../../../errors.js';
+import { sms2FAErrorCellphoneNumberAlreadyRegistered, sms2FAVerificationUnexpectedError } from '../../../errors.js';
 import { isValidCellphoneNumberValidator } from '../../../../validators.js';
 import {
   SMS_2FA_BASE_URL,
@@ -112,4 +112,50 @@ test('(400) must return an error when user is attempting to request a verificati
         translate.error(sms2FAErrorCellphoneNumberAlreadyRegistered(cellphoneNumber), LOCALE, {})
       );
     });
+});
+
+test('(400) must return an error with detailed information in case anything goes wrong with the sms verification', async t => {
+  const { cellphoneNumber } = VALID_DOC.authentication;
+  const error = { code: '5', error_text: 'Internal Error' };
+
+  const payload = {
+    country: 'BR',
+    api_key: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY,
+    api_secret: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET,
+    brand: process.env.AUTHENTICATION_SMS_2FA_SENDER_NAME,
+    code_length: 4,
+    lg: 'pt-br',
+    number: cellphoneNumber,
+  };
+  const response1 = {
+    status: error.code,
+    error_text: error.error_text,
+    network: '244523',
+    request_id: ''
+  };
+  nock(SMS_2FA_BASE_URL)
+    .post(SMS_START_2FA_VERIFICATION_PATH, (body) => JSON.stringify(payload) === JSON.stringify(body))
+    .reply(200, response1);
+
+  let failed = false;
+  try {
+    await got.post(URL, {
+      headers,
+      json: { cellphoneNumber },
+    });
+  } catch(err) {
+    failed = true;
+
+    t.assert(err.response.statusCode == 500);
+    t.deepEqual(
+      JSON.parse(err.response.body),
+      translate.error(sms2FAVerificationUnexpectedError({
+        cellphoneNumber,
+        errorText: error.error_text,
+        status: error.code,
+      }), LOCALE, {})
+    );
+  }
+
+  t.truthy(failed);
 });

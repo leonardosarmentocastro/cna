@@ -33,11 +33,14 @@ export const smsVerification = {
       error_text: errorText,
       status,
     } = JSON.parse(response.body);
-    if (Number(status) !== 0) throw sms2FACancelUnexpectedError({
-      requestId,
-      errorText,
-      status,
-    });
+    if (Number(status) !== 0) throw {
+      err: sms2FACancelUnexpectedError({
+        requestId,
+        errorText,
+        status,
+      }),
+      statusCode: 500,
+    };
 
     return { command, status };
   },
@@ -56,12 +59,15 @@ export const smsVerification = {
       status,
       ...rest
     } = JSON.parse(response.body);
-    if (Number(status) !== 0) throw sms2FACheckUnexpectedError({
-      errorText,
-      pin,
-      requestId,
-      status,
-    });
+    if (Number(status) !== 0) throw {
+      err: sms2FACheckUnexpectedError({
+        errorText,
+        pin,
+        requestId,
+        status,
+      }),
+      statusCode: 500,
+    };
 
     return { requestId, status, ...rest };
   },
@@ -85,11 +91,14 @@ export const smsVerification = {
       request_id: requestId,
       status,
     } = JSON.parse(response.body);
-    if (Number(status) !== 0) throw sms2FAVerificationUnexpectedError({
-      cellphoneNumber,
-      errorText,
-      status,
-    });
+    if (Number(status) !== 0) throw {
+      err: sms2FAVerificationUnexpectedError({
+        cellphoneNumber,
+        errorText,
+        status,
+      }),
+      statusCode: 500,
+    };
 
     return requestId;
   },

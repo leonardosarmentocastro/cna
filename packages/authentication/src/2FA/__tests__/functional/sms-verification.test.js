@@ -112,11 +112,14 @@ test('(start) in case it fails, it must throw an error containing more detailed 
   } catch(err) {
     failed = true;
 
-    t.deepEqual(err, sms2FAVerificationUnexpectedError({
-      cellphoneNumber,
-      errorText: randomError.error_text,
-      status: randomError.code,
-    }));
+    t.deepEqual(err, {
+      err: sms2FAVerificationUnexpectedError({
+        cellphoneNumber,
+        errorText: randomError.error_text,
+        status: randomError.code,
+      }),
+      statusCode: 500,
+    });
   }
 
   t.truthy(failed);
@@ -199,12 +202,15 @@ test('(check) in case it fails, it must throw an error containing more detailed 
   } catch(err) {
     failed = true;
 
-    t.deepEqual(err, sms2FACheckUnexpectedError({
-      requestId,
-      pin,
-      errorText: randomError.error_text,
-      status: randomError.code,
-    }));
+    t.deepEqual(err, {
+      err: sms2FACheckUnexpectedError({
+        requestId,
+        pin,
+        errorText: randomError.error_text,
+        status: randomError.code,
+      }),
+      statusCode: 500,
+    });
   }
 
   t.truthy(failed);
@@ -279,11 +285,14 @@ test('(cancel) in case it fails, it must throw an error containing more detailed
   } catch(err) {
     failed = true;
 
-    t.deepEqual(err, sms2FACancelUnexpectedError({
-      requestId,
-      errorText: randomError.error_text,
-      status: randomError.code,
-    }));
+    t.deepEqual(err, {
+      err: sms2FACancelUnexpectedError({
+        requestId,
+        errorText: randomError.error_text,
+        status: randomError.code,
+      }),
+      statusCode: 500,
+    });
   }
 
   t.truthy(failed);

@@ -13,6 +13,7 @@ import {
   SMS_2FA_BASE_URL,
   SMS_CANCEL_2FA_VERIFICATION_PATH,
 } from '../../../sms-verification.js';
+import { sms2FACancelUnexpectedError } from '../../../errors.js';
 
 // Setup
 const PORT = 8080;
@@ -78,3 +79,42 @@ test('(200) must succeed on checking a sms verification request', async t => {
       });
   })
 );
+
+test('(400) must return an error with detailed information in case anything goes wrong with the sms verification check', async t => {
+  const requestId = 'abcdef0123456789abcdef0123456789';
+  const command = 'cancel';
+  const error = { code: '5', error_text: 'Internal Error' };
+
+  const payload = {
+    api_key: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY,
+    api_secret: process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_SECRET,
+    request_id: requestId,
+    cmd: command,
+  };
+  const response = { status: error.code, error_text: error.error_text };
+  nock(SMS_2FA_BASE_URL)
+    .post(SMS_CANCEL_2FA_VERIFICATION_PATH, (body) => JSON.stringify(payload) === JSON.stringify(body))
+    .reply(200, response);
+
+  let failed = false;
+  try {
+    await got.post(URL, {
+      headers,
+      json: { requestId },
+    });
+  } catch(err) {
+    failed = true;
+
+    t.assert(err.response.statusCode == 500);
+    t.deepEqual(
+      JSON.parse(err.response.body),
+      translate.error(sms2FACancelUnexpectedError({
+        requestId,
+        errorText: error.error_text,
+        status: error.code,
+      }), LOCALE, {})
+    );
+  }
+
+  t.truthy(failed);
+});
