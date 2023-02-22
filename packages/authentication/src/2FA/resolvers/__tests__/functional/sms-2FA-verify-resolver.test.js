@@ -116,7 +116,7 @@ test('(400) must return an error when user is attempting to request a verificati
 
 test('(400) must return an error with detailed information in case anything goes wrong with the sms verification', async t => {
   const { cellphoneNumber } = VALID_DOC.authentication;
-  const error = { code: '5', error_text: 'Internal Error' };
+  const error = { code: '5', error_text: 'Internal Error', request_id: '' };
 
   const payload = {
     country: 'BR',
@@ -131,7 +131,7 @@ test('(400) must return an error with detailed information in case anything goes
     status: error.code,
     error_text: error.error_text,
     network: '244523',
-    request_id: ''
+    request_id: error.request_id,
   };
   nock(SMS_2FA_BASE_URL)
     .post(SMS_START_2FA_VERIFICATION_PATH, (body) => JSON.stringify(payload) === JSON.stringify(body))
@@ -152,6 +152,7 @@ test('(400) must return an error with detailed information in case anything goes
       translate.error(sms2FAVerificationUnexpectedError({
         cellphoneNumber,
         errorText: error.error_text,
+        requestId: error.request_id,
         status: error.code,
       }), LOCALE, {})
     );

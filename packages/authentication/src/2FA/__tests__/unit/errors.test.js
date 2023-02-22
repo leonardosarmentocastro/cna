@@ -69,12 +69,14 @@ availableLanguages.map(language => {
     const cellphoneNumber = '+5512000001111';
     const errorText = 'Internal Error';
     const status = '5';
-    const err = sms2FAVerificationUnexpectedError({ cellphoneNumber, errorText, status });
+    const requestId = 'id123123123';
+    const err = sms2FAVerificationUnexpectedError({ cellphoneNumber, errorText, requestId, status });
     const translation = translate.error(err, language, {});
 
     t.deepEqual(translation, {
       cellphoneNumber,
       errorText,
+      requestId,
       status,
       code: 'AUTHENTICATION_SMS_2FA_VERIFICATION_UNEXPECTED_ERROR',
       message: translate.get('AUTHENTICATION_SMS_2FA_VERIFICATION_UNEXPECTED_ERROR', language, err),

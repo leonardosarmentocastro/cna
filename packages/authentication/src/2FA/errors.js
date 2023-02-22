@@ -25,10 +25,16 @@ export const sms2FACheckUnexpectedError = ({
   status,
 });
 
-export const sms2FAVerificationUnexpectedError = ({ cellphoneNumber, errorText, status }) => ({
+export const sms2FAVerificationUnexpectedError = ({
+  cellphoneNumber,
+  errorText,
+  requestId,
+  status,
+}) => ({
   code: 'AUTHENTICATION_SMS_2FA_VERIFICATION_UNEXPECTED_ERROR',
   cellphoneNumber,
   errorText,
+  requestId,
   status,
 });
 

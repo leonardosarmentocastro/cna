@@ -71,6 +71,8 @@ export const smsVerification = {
 
     return { requestId, status, ...rest };
   },
+  // TODO: https://api.nexmo.com/verify/search
+  // search:
   start: async (cellphoneNumber) => {
     const country = 'BR';
     const language = 'pt-br';
@@ -95,6 +97,7 @@ export const smsVerification = {
       err: sms2FAVerificationUnexpectedError({
         cellphoneNumber,
         errorText,
+        requestId, // can be returned if status === '10'
         status,
       }),
       statusCode: 500,

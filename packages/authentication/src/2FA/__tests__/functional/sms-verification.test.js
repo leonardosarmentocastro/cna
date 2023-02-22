@@ -48,42 +48,55 @@ test('(start) in case it fails, it must throw an error containing more detailed 
   const POSSIBLE_ERRORS = [{
     code: '1',
     error_text: 'Throttled',
+    request_id: '',
   }, {
     code: '2',
     error_text: 'Your request is incomplete and missing the mandatory parameter $parameter',
+    request_id: '',
   }, {
     code: '3',
     error_text: 'Invalid value for parameter $parameter',
+    request_id: '',
   }, {
     code: '4',
     error_text: 'Invalid credentials were provided',
+    request_id: '',
   }, {
     code: '5',
     error_text: 'Internal Error',
+    request_id: '',
   }, {
     code: '6',
     error_text: 'The Vonage platform was unable to process this message for the following reason: $reason',
+    request_id: '',
   }, {
     code: '7',
     error_text: 'The number you are trying to verify is blacklisted for verification.',
+    request_id: '',
   }, {
     code: '8',
     error_text: 'The api_key you supplied is for an account that has been barred from submitting messages.',
+    request_id: '',
   }, {
     code: '9',
     error_text: 'Partner quota exceeded',
+    request_id: '',
   }, {
     code: '10',
     error_text: 'Concurrent verifications to the same number are not allowed.',
+    request_id: '123456789',
   }, {
     code: '15',
     error_text: 'The destination number is not in a supported network',
+    request_id: '',
   }, {
     code: '20',
     error_text: 'This account does not support the parameter: pin_code.',
+    request_id: '',
   }, {
     code: '29',
     error_text: 'Non-Permitted Destination',
+    request_id: '',
   }];
   const randomError = POSSIBLE_ERRORS[Math.floor(Math.random() * POSSIBLE_ERRORS.length)];
 
@@ -100,7 +113,7 @@ test('(start) in case it fails, it must throw an error containing more detailed 
     status: randomError.code,
     error_text: randomError.error_text,
     network: '244523',
-    request_id: ''
+    request_id: randomError.request_id,
   };
   nock(SMS_2FA_BASE_URL)
     .post(SMS_START_2FA_VERIFICATION_PATH, (body) => JSON.stringify(payload) === JSON.stringify(body))
@@ -116,6 +129,7 @@ test('(start) in case it fails, it must throw an error containing more detailed 
       err: sms2FAVerificationUnexpectedError({
         cellphoneNumber,
         errorText: randomError.error_text,
+        requestId: randomError.request_id,
         status: randomError.code,
       }),
       statusCode: 500,
