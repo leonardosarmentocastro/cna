@@ -7,9 +7,10 @@ import {
 
 export const connect = (app, model) => {
   const basePath = getModelPath(model); // "/customers"
-  console.log(`[ authentication::info ] creating authentication 2FA routes for "/authentication/2FA${basePath}"`);
+  const fullPath = `${basePath}/authentication/2FA`;
+  console.log(`[ authentication::info ] creating authentication 2FA routes for "${fullPath}"`);
 
-  app.post('/authentication/2FA/cancel', sms2FACancelResolver);
-  app.post('/authentication/2FA/check', sms2FACheckResolver);
-  app.post('/authentication/2FA/verify', sms2FAVerifyResolver(model));
+  app.post(`${fullPath}/cancel`, sms2FACancelResolver);
+  app.post(`${fullPath}/check`, sms2FACheckResolver);
+  app.post(`${fullPath}/verify`, sms2FAVerifyResolver(model));
 };

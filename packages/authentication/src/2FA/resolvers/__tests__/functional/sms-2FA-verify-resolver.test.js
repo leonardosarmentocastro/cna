@@ -20,7 +20,7 @@ import {
 // Setup
 const PORT = 8080;
 const LOCALE = 'pt-br';
-const URL = `http://127.0.0.1:${PORT}/authentication/2FA/verify`;
+const URL = `http://127.0.0.1:${PORT}/authentications/authentication/2FA/verify`;
 const headers = { 'accept-language': LOCALE };
 test.before('set required environment variables', t => {
   process.env.AUTHENTICATION_SMS_2FA_VONAGE_API_KEY = 'api key';
