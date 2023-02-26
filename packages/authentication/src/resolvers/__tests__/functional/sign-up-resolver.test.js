@@ -11,7 +11,7 @@ import { TestingModel } from '../../../defaults.js';
 
 // Setup
 const PORT = 8080;
-const URL = `http://127.0.0.1:${PORT}/authentication/sign-up`;
+const URL = `http://127.0.0.1:${PORT}/authentications/authentication/sign-up`;
 test.before('set required environment variables', t => {
   process.env.AUTHENTICATION_SECRET = 'any secret';
 });

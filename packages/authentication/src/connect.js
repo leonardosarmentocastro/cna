@@ -12,10 +12,11 @@ import { authenticationMiddleware } from './middleware/index.js';
 // TODO: use "crud" package resolvers alongside "meResolver" to enable a model updating/deleting its own data
 export const connect = (app, model) => {
   const basePath = getModelPath(model); // "/customers"
-  console.log(`[ authentication::info ] creating authentication routes for "/authentication${basePath}"`);
+  const fullPath = `${basePath}/authentication`;
+  console.log(`[ authentication::info ] creating authentication routes for "${fullPath}"`);
 
-  app.get('/authentication/me', [ authenticationMiddleware, meResolver(model), serveMeResolver ]);
-  app.post('/authentication/sign-in', [ signInResolver(model), signTokenResolver(model) ] );
-  app.post('/authentication/sign-out', [ authenticationMiddleware, meResolver(model), signOutResolver ]);
-  app.post('/authentication/sign-up', signUpResolver(model));
+  app.get(`${fullPath}/me`, [ authenticationMiddleware, meResolver(model), serveMeResolver ]);
+  app.post(`${fullPath}/sign-in`, [ signInResolver(model), signTokenResolver(model) ] );
+  app.post(`${fullPath}/sign-out`, [ authenticationMiddleware, meResolver(model), signOutResolver ]);
+  app.post(`${fullPath}/sign-up`, signUpResolver(model));
 };

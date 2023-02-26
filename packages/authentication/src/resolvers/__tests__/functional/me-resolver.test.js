@@ -16,7 +16,7 @@ import { validate } from '../../../middleware/index.js';
 
 // Setup
 const PORT = 8080;
-const BASE_URL = `http://127.0.0.1:${PORT}/authentication`;
+const BASE_URL = `http://127.0.0.1:${PORT}/authentications/authentication`;
 const URL = `${BASE_URL}/me`;
 const LOCALE = 'pt-br';
 const HEADERS = { 'accept-language': LOCALE };

@@ -17,7 +17,7 @@ import { VALID_DOC } from '../../../__fixtures__/index.js';
 
 // Setup
 const PORT = 8080;
-const URL = `http://127.0.0.1:${PORT}/authentication/sign-in`;
+const URL = `http://127.0.0.1:${PORT}/authentications/authentication/sign-in`;
 const LOCALE = 'pt-br';
 const headers = { 'accept-language': LOCALE };
 test.before('set required environment variables', t => {
