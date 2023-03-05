@@ -15,7 +15,11 @@ const translatedUnexpectedError = (req, res, { err }) =>
 
 const translatedError = (req, res, { err, doc }) => {
   const transformedDoc = doc.toObject();
-  const error = translate.error(err, req.locale, transformedDoc);
+  const toTranslate = !!err.errors // TODO: functional test it
+    ? Object.values(err.errors)[0] // for failing inner schema validations (e.g. `schema.authentication` validation)
+    : err
+  ;
+  const error = translate.error(toTranslate, req.locale, transformedDoc);
 
   return res.status(500).json(error);
 };
