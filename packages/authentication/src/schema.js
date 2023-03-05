@@ -20,6 +20,7 @@ export const authenticationSchema = new Mongoose.Schema({
   // use: String, // TODO: provide a way to register using email
   password: String,
   require2FA: { type: Boolean, default: false }, // TODO: probably not required.
+  requireStrongPassword: { type: Boolean, default: true },
   tokens: [ String ],
 });
 
@@ -40,9 +41,9 @@ authenticationSchema.post('validate', async (doc, next) => {
     ].map(field => isRequiredValidator(field)),
     // isValidUseChoiceValidator, // TODO: provide a way to register using email
     isValidCellphoneNumberValidator,
-    isPasswordStrongValidator,
+    !!doc.requireStrongPassword ? isPasswordStrongValidator : null,
     areValidTokensValidator,
-  ];
+  ].filter(Boolean);
   const error = await validate(constraints, doc);
 
   return next(error);
