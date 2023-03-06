@@ -60,6 +60,14 @@ test('(200) must succeed on authenticating the user and signing a jwt token for 
   t.assert(type === 'Bearer');
   t.truthy(authenticationToken);
   t.notThrows(() => jwt.verify(authenticationToken, process.env.AUTHENTICATION_SECRET));
+
+  const decodedToken = jwt.decode(authenticationToken, { json: true });
+  const id = decodedToken.sub;
+  const foundDoc = await t.context.model.findById(id);
+
+  const { updatedAt: tokenUpdatedAt, ...tokenPayload } = decodedToken.payload;
+  const { updatedAt: docUpdatedAt, ...sensitiveData } = foundDoc.toObject({ sensitive: true });
+  t.deepEqual(tokenPayload, sensitiveData);
 });
 
 // Unhappy path tests

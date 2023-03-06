@@ -22,6 +22,16 @@ test('must generate a jwt token that expires in 7 days, and sign it with current
 
   t.assert(jwtStandardExpirationDate.add(exp, 'second').date() === dayjs().add(7, 'day').date());
   t.assert(iss === '@leonardosarmentocastro/authentication');
-  t.deepEqual(payload, {});
+  t.deepEqual(payload, user);
   t.assert(sub === user.id);
+});
+
+test('must sign authenticated user\'s data to token payload', t => {
+  const user = { id: '123', name: 'Leonardo', cellphoneNumber: '5511000002222' };
+  const authenticationToken = tokenIssuer.sign(user);
+  t.truthy(authenticationToken);
+
+  const decodedToken = jwt.decode(authenticationToken, { json: true });
+  const { payload } = decodedToken;
+  t.deepEqual(payload, user);
 });

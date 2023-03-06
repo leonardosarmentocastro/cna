@@ -52,4 +52,8 @@ test('(200) must succeed on creating the authentication doc and signing a jwt to
   const id = decodedToken.sub;
   const foundDoc = await t.context.model.findById(id);
   t.truthy(foundDoc.authentication.tokens.some(token => authenticationToken === token));
+
+  const { updatedAt: tokenUpdatedAt, ...tokenPayload } = decodedToken.payload;
+  const { updatedAt: docUpdatedAt, ...sensitiveData } = foundDoc.toObject({ sensitive: true });
+  t.deepEqual(tokenPayload, sensitiveData);
 });
