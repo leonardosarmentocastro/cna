@@ -6,7 +6,6 @@ AUTHENTICATION_ERROR_TOKEN_EXPIRED: Authentication failed as token is expired.
 AUTHENTICATION_ERROR_TOKEN_INVALID: Authentication failed as token is invalid.
 AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Authentication failed as token is still not allowed to be used.
 AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER: Authentication failed as provided cellphone is invalid ("{value}").
-AUTHENTICATION_VALIDATOR_ERROR_INVALID_TOKENS: Authentication failed as one or more of provided tokens are invalid.
 AUTHORIZATION_ERROR_INVALID_TOKEN: You are not allowed to access private routes with an invalid authorization token.
 
 # @leonardosarmentocastro/pagination

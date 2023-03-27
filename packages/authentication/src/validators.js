@@ -1,9 +1,6 @@
 import jwt from 'jsonwebtoken';
 import util from 'util';
 
-// TODO: provide a way to register using email
-// import { VALID_USE_CHOICES } from './constants';
-
 const verify = util.promisify(jwt.verify);
 
 // ^[\+]?[0-9]{2}[(]?[0-9]{2}[)]?[-\s\.]?[0-9]{5}[-\s\.]?[0-9]{4}$
@@ -33,17 +30,3 @@ export const isValidCellphoneNumberValidator = (doc) => ({
 //   },
 //   VALID_USE_CHOICES,
 // });
-
-export const areValidTokensValidator = (doc) => ({
-  code: 'AUTHENTICATION_VALIDATOR_ERROR_INVALID_TOKENS',
-  field: 'tokens',
-  validator: async () => {
-    if (doc.tokens.length === 0) return true;
-
-    const verifications = doc.tokens.map(token => verify(token, process.env.AUTHENTICATION_SECRET));
-    const results = (await Promise.allSettled(verifications));
-    const areValid = results.every(result => result.status === 'fulfilled');
-
-    return areValid;
-  },
-});

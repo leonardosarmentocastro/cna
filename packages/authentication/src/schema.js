@@ -1,7 +1,10 @@
 import Mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
+import util from 'util';
 import {
   isPasswordStrongValidator,
   isRequiredValidator,
+  // isAlreadyInUseValidator,
   validate,
 } from '@leonardosarmentocastro/validate';
 
@@ -9,8 +12,9 @@ import { encrypter } from './encrypter.js';
 import {
   isValidCellphoneNumberValidator,
   // isValidUseChoiceValidator, // TODO: provide a way to register using email
-  areValidTokensValidator,
 } from './validators.js';
+
+const verify = util.promisify(jwt.verify);
 
 // Schema definitions
 export const authenticationSchema = new Mongoose.Schema({
@@ -41,8 +45,8 @@ authenticationSchema.post('validate', async (doc, next) => {
     ].map(field => isRequiredValidator(field)),
     // isValidUseChoiceValidator, // TODO: provide a way to register using email
     isValidCellphoneNumberValidator,
+    // isAlreadyInUseValidator('cellphoneNumber'), // TODO: provide this capability somehow (doc.constructor.base.models.Authentication.find)
     !!doc.requireStrongPassword ? isPasswordStrongValidator : null,
-    areValidTokensValidator,
   ].filter(Boolean);
   const error = await validate(constraints, doc);
 
@@ -58,4 +62,17 @@ authenticationSchema.set('toObject', {
 
     return ret;
   },
+});
+
+authenticationSchema.pre('save', async function() {
+  const doc = this;
+
+  const hasTokens = doc.tokens.length > 0;
+  if (!hasTokens) return;
+
+  const verifications = doc.tokens.map(token => verify(token, process.env.AUTHENTICATION_SECRET));
+  const results = (await Promise.allSettled(verifications));
+  const tokensToConsider = results.map((result, i) => (result.status === 'fulfilled') ? i.toString() : null).filter(Boolean);
+  const validTokens = doc.tokens.filter((token, i) => tokensToConsider.includes(i.toString()));
+  doc.tokens = validTokens;
 });

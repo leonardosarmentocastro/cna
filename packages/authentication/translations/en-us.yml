@@ -7,7 +7,6 @@ AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Authentication failed as token is still n
 
 # validators
 AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER: Authentication failed as provided cellphone is invalid ("{value}").
-AUTHENTICATION_VALIDATOR_ERROR_INVALID_TOKENS: Authentication failed as one or more of provided tokens are invalid.
 # AUTHENTICATION_VALIDATOR_ERROR_INVALID_USE_CHOICE: // TODO: provide a way to register using email
 
 # 2FA

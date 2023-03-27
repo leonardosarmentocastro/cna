@@ -117,6 +117,26 @@ test('model creation must succeeds when not requiring strong password', async t 
   t.assert((await getEntriesOnDatabase()).length === 0);
 }));
 
+// [
+//   'cellphoneNumber',
+// ].map(field => test(`model creation must fail due to field "${field}" being already used`, async t => {
+//   t.assert((await getEntriesOnDatabase()).length === 0);
+//   await new TestingModel(VALID_DOC).save();
+//   t.assert((await getEntriesOnDatabase()).length === 1);
+
+//   await new TestingModel({
+//     ...VALID_DOC,
+//     [field]: VALID_DOC[field],
+//   })
+//   .save()
+//   .catch(err => t.deepEqual(err, {
+//     code: 'VALIDATOR_ERROR_FIELD_IS_ALREADY_IN_USE',
+//     field,
+//   }));
+
+//   t.assert((await getEntriesOnDatabase()).length === 1);
+// }));
+
 [
   '11999991111', // missing country code
   '55999991111', // missing DDD
@@ -218,33 +238,30 @@ test('when saving, must not hash the password again if already hashed', async t 
   t.assert(await encrypter.verify(transformedDoc.authentication.password, unhashedPassword)); // while still matching the unhashed value
 });
 
-test('model creation must fail if invalid "token" is provided', async t => {
+test('invalid "token" must not be considered on model saving', async t => {
   t.assert((await getEntriesOnDatabase()).length === 0);
 
   process.env.AUTHENTICATION_SECRET = 'authentication token secret';
   const user = { id: '123' };
-  const options = { expiresIn: '1 second', issuer: 'tests' };
-  const authenticationToken = tokenIssuer.sign(user, options);
+  const authenticationTokens = {
+    valid: tokenIssuer.sign(user, { expiresIn: '1 week', issuer: 'tests' }),
+    invalid: tokenIssuer.sign(user, { expiresIn: '1 second', issuer: 'tests' }),
+  };
   await sleep(2000);
 
-  try {
-    const doc = {
-      ...VALID_DOC,
-      authentication: {
-        ...VALID_DOC.authentication,
-        tokens: [ authenticationToken ],
-      },
-    };
+  const doc = {
+    ...VALID_DOC,
+    authentication: {
+      ...VALID_DOC.authentication,
+      tokens: [ authenticationTokens.invalid, authenticationTokens.valid ],
+    },
+  };
 
-    await new TestingModel(doc).save();
-  } catch(err) {
-    t.deepEqual(err.errors.authentication, {
-      code: 'AUTHENTICATION_VALIDATOR_ERROR_INVALID_TOKENS',
-      field: 'tokens',
-    });
-  }
-
-  t.assert((await getEntriesOnDatabase()).length === 0);
+  const createdDoc = await new TestingModel(doc).save();
+  const transformedDoc = createdDoc.toObject();
+  t.assert(transformedDoc.authentication.tokens.length === 1);
+  t.deepEqual(transformedDoc.authentication.tokens, [ authenticationTokens.valid ]);
+  t.assert((await getEntriesOnDatabase()).length === 1);
 });
 
 ['tokens', 'password'].map(field =>
