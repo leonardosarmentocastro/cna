@@ -1,10 +1,9 @@
-const dayjs = require('dayjs');
 const mongoose = require('mongoose');
 
 // Middlewares
 const preSaveMiddleware = function(next) {
   const schema = this;
-  schema.updatedAt = schema.updatedAt ? dayjs().toISOString() : schema.createdAt;
+  schema.updatedAt = schema.updatedAt ? Date.now() : schema.createdAt;
 
   next();
 };
@@ -23,17 +22,28 @@ const transform = (doc, ret) => {
 const commonSchema = new mongoose.Schema({
   _id: false,
   createdAt: {
-    type: String,
-    default: dayjs().toISOString(),
+    type: Date,
+    default: Date.now,
     required: true,
   },
   updatedAt: {
-    type: String,
-    default: '',
+    type: Date,
+    default: null,
+    required: false,
   },
 });
 commonSchema.pre('save', preSaveMiddleware);
 commonSchema.set('toObject', { transform });
+
+// https://stackoverflow.com/a/54453990
+commonSchema.virtual('createdAt_ptBR').get(function() {
+  const doc = this;
+  return new Date(doc.createdAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+});
+commonSchema.virtual('updatedAt_ptBR').get(function() {
+  const doc = this;
+  return new Date(doc.updatedAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+});
 
 module.exports = {
   commonSchema,

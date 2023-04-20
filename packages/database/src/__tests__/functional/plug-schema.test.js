@@ -28,6 +28,12 @@ test('must inherit "fields" from plugged schema (e.g. commonsSchema)', async t =
 
   t.truthy(transformedDoc.createdAt);
   t.truthy(transformedDoc.updatedAt);
+
+  t.notThrows(() => new Date(transformedDoc.createdAt));
+  t.notThrows(() => new Date(transformedDoc.updatedAt));
+
+  t.truthy(transformedDoc.createdAt_ptBR);
+  t.truthy(transformedDoc.updatedAt_ptBR);
 });
 
 test('must inherit "toObject.virtuals" from plugged schema (e.g. commonsSchema)', async t => {
