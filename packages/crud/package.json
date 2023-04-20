@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/crud",
-  "version": "1.4.20",
+  "version": "1.4.24",
   "description": "crud",
   "main": "src/index.js",
   "publishConfig": {
@@ -18,9 +18,9 @@
   "author": "leonardosarmentocastro",
   "license": "ISC",
   "dependencies": {
-    "@leonardosarmentocastro/database": "^1.4.0",
+    "@leonardosarmentocastro/database": "^1.4.24",
     "@leonardosarmentocastro/i18n": "^1.3.1",
-    "@leonardosarmentocastro/pagination": "^1.4.0",
+    "@leonardosarmentocastro/pagination": "^1.4.24",
     "@leonardosarmentocastro/server": "^1.0.0",
     "@leonardosarmentocastro/validate": "^1.3.0",
     "mongoose": "6.5.0",
