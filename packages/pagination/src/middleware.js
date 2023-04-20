@@ -19,7 +19,7 @@ const convertSuffix = (suffix) => {
 const mapSortingSuffix = (sort) => // "email+;username-;"
   sort.split(';')  // [ "email+", "username-", "" ]
     .filter(Boolean) //[ "email+", "username-" ]
-    .reduce((accumulator, sorting) => { // "email+"
+    .reduce((accumulator, sorting) => { // "email+"
       const suffix = sorting.slice(-1); // "+"
       const key = sorting.substring(0, sorting.length - 1); // "email"
 

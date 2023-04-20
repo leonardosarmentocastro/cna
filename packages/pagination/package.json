@@ -20,6 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "ava": "^4.3.1",
+    "dayjs": "^1.11.7",
     "mongoose": "6.5.0"
   },
   "peerDependencies": {

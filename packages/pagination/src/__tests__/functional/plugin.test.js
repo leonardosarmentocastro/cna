@@ -1,7 +1,7 @@
 const test = require('ava');
 const mongoose = require('mongoose');
 
-const { database } = require('@leonardosarmentocastro/database');
+const { commonSchema, database, plugSchema } = require('@leonardosarmentocastro/database');
 const { paginationPlugin } = require('../../plugin');
 const {
   PRODUCTS,
@@ -19,14 +19,15 @@ test.before('create sample products model to work with on tests', t => {
   schema.set('toObject', {
     // Wipe out MongoDB internal fields.
     transform: (doc, ret) => {
-      const { __v, _id, ...fields } = ret;
+      const { __v, _id, updatedAt, ...fields } = ret;
       return fields;
     },
   });
+  schema.plugin(plugSchema(commonSchema)); // adds 'createdAt' and 'updatedAt'
 
   t.context.model = mongoose.model('Product', schema);
 });
-test.before('cleanup / sequentially creates registries on database', async t => {
+test.before('cleanup / sequentially creates registries on database', async t => {
   await t.context.model.deleteMany({});
 
   for (const product of PRODUCTS) {
@@ -126,7 +127,7 @@ test('(results::docs) must return an empty array when query doesn\'t find result
   t.deepEqual(results.docs, []);
 });
 
-test('(results::docs) must be able serve ascending sortened results', async t => {
+test('(results::docs) must be able serve numeric ascending sortened results', async t => {
   const sort = { name: 'asc', price: 'asc' };
   const pagination = { conditions: {},  limit: 3,  page: 1, sort };
 
@@ -143,8 +144,42 @@ test('(results::docs) must be able serve ascending sortened results', async t =>
   t.deepEqual(results4.docs, [ PRODUCT10 ]);
 });
 
-test('(results::docs) must be able serve descending sortened results', async t => {
+test('(results::docs) must be able serve date ascending sortened results', async t => {
+  const sort = { createdAt: 'asc' };
+  const pagination = { conditions: {},  limit: 3,  page: 1, sort };
+
+  const results1 = await t.context.model.paginate(pagination);
+  t.deepEqual(results1.docs, [ PRODUCT1, PRODUCT2, PRODUCT3 ]);
+
+  const results2 = await t.context.model.paginate({ ...pagination, page: 2 });
+  t.deepEqual(results2.docs, [ PRODUCT4, PRODUCT5, PRODUCT6 ]);
+
+  const results3 = await t.context.model.paginate({ ...pagination, page: 3 });
+  t.deepEqual(results3.docs, [ PRODUCT7, PRODUCT8, PRODUCT9 ]);
+
+  const results4 = await t.context.model.paginate({ ...pagination, page: 4 });
+  t.deepEqual(results4.docs, [ PRODUCT10 ]);
+});
+
+test('(results::docs) must be able serve numeric descending sortened results', async t => {
   const sort = { name: 'desc', price: 'desc' };
+  const pagination = { conditions: {},  limit: 3,  page: 1, sort };
+
+  const results1 = await t.context.model.paginate(pagination);
+  t.deepEqual(results1.docs, [ PRODUCT10, PRODUCT9, PRODUCT8 ]);
+
+  const results2 = await t.context.model.paginate({ ...pagination, page: 2 });
+  t.deepEqual(results2.docs, [ PRODUCT7, PRODUCT6, PRODUCT5 ]);
+
+  const results3 = await t.context.model.paginate({ ...pagination, page: 3 });
+  t.deepEqual(results3.docs, [ PRODUCT4, PRODUCT3, PRODUCT2 ]);
+
+  const results4 = await t.context.model.paginate({ ...pagination, page: 4 });
+  t.deepEqual(results4.docs, [ PRODUCT1 ]);
+});
+
+test('(results::docs) must be able serve date descending sortened results', async t => {
+  const sort = { createdAt: 'desc' };
   const pagination = { conditions: {},  limit: 3,  page: 1, sort };
 
   const results1 = await t.context.model.paginate(pagination);
