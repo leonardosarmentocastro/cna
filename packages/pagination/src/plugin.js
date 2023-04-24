@@ -1,5 +1,8 @@
 const DEFAULT = {
-  options: { toJson: true },
+  options: {
+    sensitive: true, // TODO: functional test with crud.readResolver
+    toJson: true,
+  },
 };
 
 const plugin = async function (pagination, options = DEFAULT.options) {
@@ -21,7 +24,7 @@ const plugin = async function (pagination, options = DEFAULT.options) {
     .skip(skip)
     .sort(sort);
 
-  const docs = options.toJson ? (await query).map(doc => doc.toObject()) : await query;
+  const docs = options.toJson ? (await query).map(doc => doc.toObject(options)) : await query;
   const results = {
     docs,
     hasNextPage,

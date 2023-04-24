@@ -29,6 +29,7 @@ const mapSortingSuffix = (sort) => // "email+;username-;"
       };
     }, {});
 
+// TODO: FUNCTIONAL TEST (connect to route + fetch it)
 const paginationMiddleware = (req, res, next) => {
   const queryParameters = { ...DEFAULT, ...req.query };
   const err = validate(queryParameters);

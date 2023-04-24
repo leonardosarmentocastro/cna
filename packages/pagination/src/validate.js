@@ -17,7 +17,7 @@ const isInAgreementWithConvention = (string) => {
 };
 
 const constraints = [
-  {  field: 'c',  validator: (string) => isJSON(string) },
+  {  field: 'c',  validator: (string) => isJSON(string) }, // TODO: isJSON(decodeURIComponent(string))?
   {  field: 'l',  validator: (string) => isNumeric(string) && (string >= 1) },
   {  field: 'p',  validator: (string) => isNumeric(string) && (string >= 1) },
   {  field: 's',  validator: (string) => isInAgreementWithConvention(string) },
@@ -31,5 +31,5 @@ exports.validate = (queryParameters) =>
     const string = queryParameters[error.field];
     const isValid = validator(string);
 
-    return isValid ? null : error;
+    return isValid ? null : error;
   }, null);
