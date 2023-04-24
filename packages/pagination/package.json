@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/pagination",
-  "version": "1.4.25",
+  "version": "1.4.26",
   "description": "mongoose pagination",
   "main": "src/index.js",
   "publishConfig": {
