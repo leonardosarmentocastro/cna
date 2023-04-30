@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/template_standard",
-  "version": "1.4.26",
+  "version": "1.4.27",
   "description": "",
   "engines": {
     "node": ">=14.16"
@@ -49,10 +49,10 @@
     "nyc": "^15.1.0"
   },
   "dependencies": {
-    "@leonardosarmentocastro/crud": "^1.4.26",
-    "@leonardosarmentocastro/database": "^1.4.24",
+    "@leonardosarmentocastro/crud": "^1.4.27",
+    "@leonardosarmentocastro/database": "^1.4.27",
     "@leonardosarmentocastro/i18n": "^1.3.1",
-    "@leonardosarmentocastro/pagination": "^1.4.26",
+    "@leonardosarmentocastro/pagination": "^1.4.27",
     "@leonardosarmentocastro/server": "*",
     "@leonardosarmentocastro/validate": "^1.3.0",
     "dotenv": "^16.0.1",
