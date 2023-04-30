@@ -34,6 +34,9 @@ const commonSchema = new mongoose.Schema({
 });
 commonSchema.pre('save', preSaveMiddleware);
 commonSchema.set('toObject', { transform });
+commonSchema.set('toJSON', {
+  virtuals: true // Expose "id" instead of "_id".
+});
 
 // https://stackoverflow.com/a/54453990
 commonSchema.virtual('createdAt_ptBR').get(function() {
