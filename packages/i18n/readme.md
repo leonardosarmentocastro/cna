@@ -1,6 +1,6 @@
-### i18n
+# i18n
 
-summary
+### Summary
 
 - store under `./translations` folder, `.yml` files that corresponds to an available language (e.g. `.translations/en-us.yml`)
 - translation files are interpreted by [messageformat engine](https://github.com/messageformat/messageformat) engine
@@ -12,7 +12,7 @@ summary
 - the default language is set by `process.env.LANGUAGE` and is available in all requests by `req.locale` prop
 
 
-usage
+### Usage
 
   ```yml
   # .translations/en-us.yml
