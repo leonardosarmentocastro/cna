@@ -1,6 +1,6 @@
 # template_standard
 
-Production ready Node.js Back-end server codebase template.
+Production ready Node.js back-end server codebase template.
 
 ---
 
