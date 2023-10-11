@@ -10,5 +10,5 @@ A set of small reusable modules for creating production ready Node.js back-end a
 - [i18n](https://github.com/leonardosarmentocastro/cna/tree/main/packages/i18n) — translations using `.yml` files and [messageformat engine](https://github.com/messageformat/messageformat) engine
 - [pagination](https://github.com/leonardosarmentocastro/cna/tree/main/packages/pagination) — Pagination plugin for Mongoose models 
 - [server](https://github.com/leonardosarmentocastro/cna/tree/main/packages/server) - Create a production ready Express.js server with start/listen/close capabilities.
-- [standard node.js project template](https://github.com/leonardosarmentocastro/cna/tree/main/packages/template_standard)
+- [template_standard](https://github.com/leonardosarmentocastro/cna/tree/main/packages/template_standard) - Production ready Node.js back-end server codebase template.
 - [validate](https://github.com/leonardosarmentocastro/cna/tree/main/packages/validate) - validate constraints (specially) in mongoose models
