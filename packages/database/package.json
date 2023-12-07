@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/database",
-  "version": "1.4.27",
+  "version": "2.0.0",
   "description": "connect to mongodb",
   "main": "src/index.js",
   "publishConfig": {
