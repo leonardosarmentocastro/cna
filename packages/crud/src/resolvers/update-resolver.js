@@ -4,7 +4,7 @@ const { DEFAULTS } = require('../defaults');
 const { documentNotFoundError, translatedError } = require('../errors');
 const { sanitizer } = require('@leonardosarmentocastro/database');
 
-exports.updateResolver = (model = DEFAULTS.model) => async (req, res) => {
+exports.updateResolver = (model = DEFAULTS.model, options = { sensitive: true }) => async (req, res) => {
   const { id } = req.params;
   if (!isMongoId(id)) return documentNotFoundError(req, res);
 
@@ -16,7 +16,7 @@ exports.updateResolver = (model = DEFAULTS.model) => async (req, res) => {
 
   try {
     const updatedDoc = await docToUpdate.save();
-    const transformedDoc = updatedDoc.toObject();
+    const transformedDoc = updatedDoc.toObject(options);
 
     return res.status(200).json(transformedDoc);
   } catch(err) {

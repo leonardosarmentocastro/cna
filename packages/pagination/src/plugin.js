@@ -16,7 +16,7 @@ const plugin = async function (pagination, options = DEFAULT.options) {
   const hasNextPage = (page < totalPages);
   const hasPreviousPage = (page > 1);
   const nextPage = (hasNextPage ? page + 1 : null);
-  const previousPage = (hasPreviousPage ? page - 1 : null);
+  const previousPage = (hasPreviousPage ? page - 1 : null);
 
   const skip = (page - 1) * limit;
   const query = model.find(conditions)
