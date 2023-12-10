@@ -41,7 +41,6 @@ authenticationSchema.post('validate', async (doc, next) => {
   const constraints = [
     ...[
       'cellphoneNumber',
-      'role',
       'password',
       // 'use', // TODO: provide a way to register using email
     ].map(field => isRequiredValidator(field)),

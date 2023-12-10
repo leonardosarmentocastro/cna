@@ -4,7 +4,7 @@ export const VALID_DOC = {
     password: 'v@l1dpAssw0rD',
     require2FA: false,
     requireStrongPassword: true,
-    role: 'user',
+    role: '',
     tokens: [],
   },
   name: 'Leonardo Sarmento de Castro',
