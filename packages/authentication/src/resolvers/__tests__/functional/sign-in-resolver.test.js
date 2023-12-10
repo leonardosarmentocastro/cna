@@ -15,6 +15,9 @@ import { DEFAULTS } from '../../../defaults.js';
 import { connect } from '../../../connect.js';
 import { VALID_DOC } from '../../../__fixtures__/index.js';
 
+// Helpers
+const serialize = (data) => JSON.parse(JSON.stringify(data));
+
 // Setup
 const PORT = 8080;
 const URL = `http://127.0.0.1:${PORT}/authentications/authentication/sign-in`;
@@ -65,9 +68,17 @@ test('(200) must succeed on authenticating the user and signing a jwt token for 
   const id = decodedToken.sub;
   const foundDoc = await t.context.model.findById(id);
 
-  const { updatedAt: tokenUpdatedAt, ...tokenPayload } = decodedToken.payload;
-  const { updatedAt: docUpdatedAt, ...sensitiveData } = foundDoc.toObject({ sensitive: true });
-  t.deepEqual(tokenPayload, sensitiveData);
+  const {
+    updatedAt: tokenUpdatedAt,
+    updatedAt_ptBR: tokenUpdatedAt_ptBR,
+     ...tokenPayload
+    } = decodedToken.payload;
+  const {
+    updatedAt: docUpdatedAt,
+    updatedAt_ptBR: docUpdatedAt_ptBR,
+    ...sensitiveData
+  } = foundDoc.toObject({ sensitive: true });
+  t.deepEqual(tokenPayload, serialize(sensitiveData));
 });
 
 // Unhappy path tests

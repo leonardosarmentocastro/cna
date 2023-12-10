@@ -14,6 +14,9 @@ import { tokenIssuer } from '../../../token-issuer.js';
 import { authenticationErrorRegistryForTokenNotFound } from '../../../errors.js';
 import { validate } from '../../../middleware/index.js';
 
+// Helpers
+const serialize = (data) => JSON.parse(JSON.stringify(data));
+
 // Setup
 const PORT = 8080;
 const BASE_URL = `http://127.0.0.1:${PORT}/authentications/authentication`;
@@ -68,7 +71,7 @@ test('(200) must succeed on serving the authenticated user data with sensitive c
   const userData = JSON.parse(response2.body);
   t.falsy(userData.authentication.password);
   t.falsy(userData.authentication.tokens);
-  t.deepEqual(userData, authenticatedUser.toObject({ sensitive: true }));
+  t.deepEqual(userData, serialize(authenticatedUser.toObject({ sensitive: true })));
 });
 
 test('(400) must return an error if an empty or invalid "authorization" header is set when trying to fetch authenticated user data', async t => {

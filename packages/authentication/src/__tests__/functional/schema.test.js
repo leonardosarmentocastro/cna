@@ -42,7 +42,9 @@ test('model creation must succeeds when not requiring 2FA', async t => {
   const {
     id,
     createdAt,
+    createdAt_ptBR,
     updatedAt,
+    updatedAt_ptBR,
     ...rest
   } = createdDoc.toObject({ sensitive: false });
 
@@ -75,7 +77,9 @@ test('model creation must succeeds when not requiring strong password', async t 
   const {
     id,
     createdAt,
+    createdAt_ptBR,
     updatedAt,
+    updatedAt_ptBR,
     ...rest
   } = createdDoc.toObject({ sensitive: false });
 
@@ -93,6 +97,7 @@ test('model creation must succeeds when not requiring strong password', async t 
 
 [
   'cellphoneNumber',
+  'role',
   'password',
 ].map(field => test(`model creation must fail due to lack of required field "${field}"`, async t => {
   t.assert((await getEntriesOnDatabase()).length === 0);
