@@ -10,5 +10,6 @@ export const signTokenResolver = (model = DEFAULTS.model) => async (req, res) =>
   await foundDoc.save();
 
   res.set('Authorization', `Bearer ${authenticationToken}`);
+  res.set("Access-Control-Expose-Headers", "Authorization"); // https://stackoverflow.com/q/50570900 + https://stackoverflow.com/a/50570965 + https://stackoverflow.com/a/66291644
   res.end();
 };

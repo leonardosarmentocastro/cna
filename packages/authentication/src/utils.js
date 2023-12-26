@@ -1,4 +1,6 @@
 export const getAuthenticationToken = (req) => {
-  const [ type, authenticationToken = '' ] = req.header('Authorization')?.trim().split(' ');
+  const header = req.header('Authorization') || '';
+  const [ type, authenticationToken = '' ] = header.trim().split(' ');
+
   return authenticationToken;
 };
