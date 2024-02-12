@@ -3,6 +3,8 @@ exports.isAlreadyInUseValidator = (field = '') => (doc = {}) => ({
   field,
   validator: async () => {
     const model = doc.constructor;
+
+    if (!model.find) return true; // TO-FIX: when validating sub-schemas (e.g. "offers.shop"), the `model.find` method is not available, crashing the validation.
     const records = await model.find({ [field]: doc[field] });
 
     // NOTE: Both "create" and "update" operations run validations appended to ".save" method.
