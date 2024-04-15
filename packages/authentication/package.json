@@ -1,7 +1,7 @@
 {
   "name": "@leonardosarmentocastro/authentication",
   "description": "authentication",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "exports": "./index.js",
   "main": "./index.js",
   "type": "module",
