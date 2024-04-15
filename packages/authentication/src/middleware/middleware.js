@@ -27,3 +27,15 @@ export const authenticationMiddleware = async (req, res, next) => {
 
   next();
 };
+
+export const authenticationSocketMiddleware = async (req, res, next) => {
+  const isHandshake = req._query.sid === undefined;
+  if (!isHandshake) return next();
+
+  const header = req.headers?.authorization || '';
+  const [ type, authenticationToken = '' ] = header.trim().split(' ');
+  const err = await validate(authenticationToken);
+  if (err) return next(err);
+
+  next();
+};
