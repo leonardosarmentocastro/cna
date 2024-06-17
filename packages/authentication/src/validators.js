@@ -21,31 +21,18 @@ export const isValidCellphoneNumberValidator = (doc) => ({
   CELLPHONE_NUMBER_VALIDATION_REGEX: CELLPHONE_NUMBER_VALIDATION_REGEX.toString(),
 });
 
-export const isCellphoneAlreadyInUseValidator = (doc = {}) => {
-  const field = 'authentication.cellphoneNumber';
+export const isCellphoneNumberAlreadyInUseValidator = (doc = {}) => ({
+  code: 'AUTHENTICATION_VALIDATOR_ERROR_CELLPHONE_NUMBER_ALREADY_IN_USE',
+  field: 'authentication.cellphoneNumber',
+  validator: async () => {
+    const model = doc.constructor;
 
-  return {
-    field,
-    code: 'AUTHENTICATION_VALIDATOR_ERROR_CELLPHONE_ALREADY_IN_USE',
-    validator: async () => {
-      const model = doc.constructor;
-      const baseModel = Object.keys(model.base.models)[0];
-      const value = get(doc, field);
-      const records = await model.base.models[baseModel].find({ field: value });
+    const cellphoneNumbers = await model.aggregate().project({ cellphoneNumber: '$authentication.cellphoneNumber' });
+    const isValid = !cellphoneNumbers.some(({ cellphoneNumber }) => cellphoneNumber === doc?.authentication?.cellphoneNumber);
 
-      // NOTE: Both "create" and "update" operations run validations appended to ".save" method.
-      // We **must** validate both cases, cause:
-      // If you create an user with username "username123" and update any other field later on,
-      // the update operation would not be successful due to the username field being used by yourself.
-      const isBeingUsedBySomeone = (records.length !== 0); // create operation
-      const isBeingUsedByMe = records.some(record => record.id === doc.id); // update operation
-
-      const isValid = (!isBeingUsedBySomeone || isBeingUsedByMe);
-      return isValid;
-    },
-  }
-};
-
+    return isValid;
+  },
+});
 
 // TODO: provide a way to register using email
 // export const isValidUseChoiceValidator = (doc = {}) => ({

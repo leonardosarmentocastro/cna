@@ -10,7 +10,7 @@ import {
 import { encrypter } from './encrypter.js';
 import {
   isValidCellphoneNumberValidator,
-  isCellphoneAlreadyInUseValidator,
+  // isCellphoneNumberAlreadyInUseValidator, // NOTE: you must plug it yourself in your top-level schema
   // isValidUseChoiceValidator, // TODO: provide a way to register using email
 } from './validators.js';
 
@@ -47,7 +47,7 @@ authenticationSchema.post('validate', async function (doc, next) {
     ].map(field => isRequiredValidator(field)),
     // isValidUseChoiceValidator, // TODO: provide a way to register using email
     isValidCellphoneNumberValidator,
-    isCellphoneAlreadyInUseValidator,
+    // isCellphoneNumberAlreadyInUseValidator, // NOTE: you must plug it yourself in your top-level schema
     !!doc.requireStrongPassword ? isPasswordStrongValidator : null,
   ].filter(Boolean);
   const error = await validate(constraints, doc);

@@ -10,12 +10,14 @@ import {
   signTokenResolver,
   signUpResolver,
 } from './resolvers/index.js';
+import { isCellphoneNumberAlreadyInUseValidator } from './validators.js';
 
 export {
   authenticationMiddleware,
   authenticationSchema,
   authenticationSocketMiddleware,
   connect,
+  isCellphoneNumberAlreadyInUseValidator,
   meResolver,
   serveMeResolver,
   signInResolver,
@@ -30,6 +32,7 @@ export default {
   authenticationSchema,
   authenticationSocketMiddleware,
   connect,
+  isCellphoneNumberAlreadyInUseValidator,
   meResolver,
   serveMeResolver,
   signInResolver,

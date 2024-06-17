@@ -122,7 +122,8 @@ test('model creation must succeeds when not requiring strong password', async t 
   t.assert((await getEntriesOnDatabase()).length === 0);
 }));
 
-test('model creation must fail due to field "cellphoneNumber" being already used', async t => {
+// NOTE: You must plug the "isCellphoneNumberAlreadyInUseValidator" yourself on the top-level schema that is using "authenticationSchema"
+test.skip('model creation must fail due to field "cellphoneNumber" being already used', async t => {
   t.assert((await getEntriesOnDatabase()).length === 0);
   await new TestingModel(VALID_DOC).save();
   t.assert((await getEntriesOnDatabase()).length === 1);

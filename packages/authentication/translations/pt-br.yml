@@ -6,7 +6,7 @@ AUTHENTICATION_ERROR_TOKEN_INVALID: Autenticação falhou pois o token é invál
 AUTHENTICATION_ERROR_TOKEN_NOT_BEFORE: Autenticação falhou pois o token ainda não pode ser usado.
 
 # validators
-AUTHENTICATION_VALIDATOR_ERROR_CELLPHONE_ALREADY_IN_USE: Autenticação falhou pois o número de celular informado já está em uso.
+AUTHENTICATION_VALIDATOR_ERROR_CELLPHONE_NUMBER_ALREADY_IN_USE: Autenticação falhou pois o número de celular informado já está em uso.
 AUTHENTICATION_VALIDATOR_ERROR_INVALID_CELLPHONE_NUMBER: Autenticação falhou pois o número de celular informado é inválido ("{value}").
 # AUTHENTICATION_VALIDATOR_ERROR_INVALID_USE_CHOICE: // TODO: provide a way to register using email
 
