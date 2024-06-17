@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/template_standard",
-  "version": "2.1.3",
+  "version": "2.3.0",
   "description": "",
   "engines": {
     "node": ">=14.16"
