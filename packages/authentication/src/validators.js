@@ -1,7 +1,7 @@
 // import jwt from 'jsonwebtoken';
 // import util from 'util';
 
-import { get } from './utils.js';
+import { isEmpty } from './utils.js';
 
 // const verify = util.promisify(jwt.verify);
 
@@ -21,14 +21,18 @@ export const isValidCellphoneNumberValidator = (doc) => ({
   CELLPHONE_NUMBER_VALIDATION_REGEX: CELLPHONE_NUMBER_VALIDATION_REGEX.toString(),
 });
 
+// TODO: provide a test for this.
 export const isCellphoneNumberAlreadyInUseValidator = (doc = {}) => ({
   code: 'AUTHENTICATION_VALIDATOR_ERROR_CELLPHONE_NUMBER_ALREADY_IN_USE',
   field: 'authentication.cellphoneNumber',
   validator: async () => {
     const model = doc.constructor;
-
     const cellphoneNumbers = await model.aggregate().project({ cellphoneNumber: '$authentication.cellphoneNumber' });
-    const isValid = !cellphoneNumbers.some(({ cellphoneNumber }) => cellphoneNumber === doc?.authentication?.cellphoneNumber);
+    const found = cellphoneNumbers.find(({ cellphoneNumber }) => cellphoneNumber === doc?.authentication?.cellphoneNumber);
+
+    const notBeingUsed = isEmpty(found);
+    const isUsedByMe = (found?._id.toString() === doc.id);
+    const isValid = notBeingUsed || isUsedByMe;
 
     return isValid;
   },
