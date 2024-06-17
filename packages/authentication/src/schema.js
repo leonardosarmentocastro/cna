@@ -4,13 +4,13 @@ import util from 'util';
 import {
   isPasswordStrongValidator,
   isRequiredValidator,
-  // isAlreadyInUseValidator,
   validate,
 } from '@leonardosarmentocastro/validate';
 
 import { encrypter } from './encrypter.js';
 import {
   isValidCellphoneNumberValidator,
+  isCellphoneAlreadyInUseValidator,
   // isValidUseChoiceValidator, // TODO: provide a way to register using email
 } from './validators.js';
 
@@ -20,6 +20,7 @@ const verify = util.promisify(jwt.verify);
 export const authenticationSchema = new Mongoose.Schema({
   _id: false,
   cellphoneNumber: String,
+  // TODO?: add "cpf"
   // email: String, // TODO: provide a way to register using email
   // use: String, // TODO: provide a way to register using email
   password: String,
@@ -37,7 +38,7 @@ authenticationSchema.pre('save', async function() {
   if (!isPasswordHashed) doc.password = await encrypter.hash(doc.password);
 });
 
-authenticationSchema.post('validate', async (doc, next) => {
+authenticationSchema.post('validate', async function (doc, next) {
   const constraints = [
     ...[
       'cellphoneNumber',
@@ -46,7 +47,7 @@ authenticationSchema.post('validate', async (doc, next) => {
     ].map(field => isRequiredValidator(field)),
     // isValidUseChoiceValidator, // TODO: provide a way to register using email
     isValidCellphoneNumberValidator,
-    // isAlreadyInUseValidator('cellphoneNumber'), // TODO: provide this capability somehow (doc.constructor.base.models.Authentication.find)
+    isCellphoneAlreadyInUseValidator,
     !!doc.requireStrongPassword ? isPasswordStrongValidator : null,
   ].filter(Boolean);
   const error = await validate(constraints, doc);

@@ -24,6 +24,7 @@
     "test:functional": "ava **/functional/**/*.test.js --verbose --serial",
     "test:functional:create-docs": "CREATE_DOCS=true npm run test:functional:local",
     "test:functional:local": "npm run env:symlink:test && npm run start:database && npm run test:functional",
+    "test:unit": "ava **/unit/**/*.test.js --verbose",
     "disabled:test:unit": "ava **/unit/**/*.test.js --verbose",
     "test:with-coverage": "nyc npm test"
   },

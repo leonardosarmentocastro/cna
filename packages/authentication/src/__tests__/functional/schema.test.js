@@ -1,4 +1,5 @@
 import test from 'ava';
+import Mongoose from 'mongoose';
 import { database } from '@leonardosarmentocastro/database';
 
 import { TestingModel } from '../../defaults.js';
@@ -121,25 +122,29 @@ test('model creation must succeeds when not requiring strong password', async t 
   t.assert((await getEntriesOnDatabase()).length === 0);
 }));
 
-// [
-//   'cellphoneNumber',
-// ].map(field => test(`model creation must fail due to field "${field}" being already used`, async t => {
-//   t.assert((await getEntriesOnDatabase()).length === 0);
-//   await new TestingModel(VALID_DOC).save();
-//   t.assert((await getEntriesOnDatabase()).length === 1);
+test('model creation must fail due to field "cellphoneNumber" being already used', async t => {
+  t.assert((await getEntriesOnDatabase()).length === 0);
+  await new TestingModel(VALID_DOC).save();
+  t.assert((await getEntriesOnDatabase()).length === 1);
 
-//   await new TestingModel({
-//     ...VALID_DOC,
-//     [field]: VALID_DOC[field],
-//   })
-//   .save()
-//   .catch(err => t.deepEqual(err, {
-//     code: 'VALIDATOR_ERROR_FIELD_IS_ALREADY_IN_USE',
-//     field,
-//   }));
+  await new TestingModel({
+    ...VALID_DOC,
+    authentication: {
+      ...VALID_DOC.authentication,
+      cellphoneNumber: VALID_DOC.authentication.cellphoneNumber,
+    },
+  })
+  .save()
+  .catch(err => {
+    t.assert(err instanceof Mongoose.Error.ValidationError); // subdocuments schema validations throws "validation errors"
+    t.deepEqual(err?.errors.authentication, {
+      code: 'AUTHENTICATION_VALIDATOR_ERROR_CELLPHONE_ALREADY_IN_USE',
+      field: 'authentication.cellphoneNumber',
+    });
+  });
 
-//   t.assert((await getEntriesOnDatabase()).length === 1);
-// }));
+  t.assert((await getEntriesOnDatabase()).length === 1);
+});
 
 [
   '11999991111', // missing country code
