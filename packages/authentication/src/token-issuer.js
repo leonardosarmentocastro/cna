@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 const DEFAULT = {
   options: {
-    expiresIn: '7 days',
+    expiresIn: '15 days',
     issuer: '@leonardosarmentocastro/authentication',
   },
 };
