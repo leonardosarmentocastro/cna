@@ -7,6 +7,7 @@ exports.DEFAULTS = {
   model: mongoose.model('CrudModel', new mongoose.Schema({ example: Boolean })),
   options: {
     sensitive: true, // @leonardosarmentocastro/authentication
-    toJson: true // @leonardosarmentocastro/pagination
+    toJson: true, // @leonardosarmentocastro/pagination
+    validateBeforeSave: true, // mongoose (https://mongoosejs.com/docs/guide.html#validateBeforeSave)
   },
 };
