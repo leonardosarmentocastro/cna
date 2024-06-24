@@ -1,6 +1,6 @@
 {
   "name": "@leonardosarmentocastro/template_standard",
-  "version": "2.3.0",
+  "version": "2.4.2",
   "description": "",
   "engines": {
     "node": ">=14.16"
@@ -50,7 +50,7 @@
     "nyc": "^15.1.0"
   },
   "dependencies": {
-    "@leonardosarmentocastro/crud": "^2.1.3",
+    "@leonardosarmentocastro/crud": "^2.4.2",
     "@leonardosarmentocastro/database": "^2.0.0",
     "@leonardosarmentocastro/i18n": "^2.0.0",
     "@leonardosarmentocastro/pagination": "^2.0.0",
