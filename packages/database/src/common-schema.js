@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 // Middlewares
 const preSaveMiddleware = function(next) {
   const schema = this;
+
   schema.updatedAt = schema.updatedAt ? Date.now() : schema.createdAt;
+
+  schema.updatedAt_ptBR = new Date(schema.updatedAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+  schema.createdAt_ptBR = new Date(schema.createdAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
 
   next();
 };
@@ -26,9 +30,19 @@ const commonSchema = new mongoose.Schema({
     default: Date.now,
     required: true,
   },
+  createdAt_ptBR: {
+    type:String,
+    default: '',
+    required: false,
+  },
   updatedAt: {
     type: Date,
     default: null,
+    required: false,
+  },
+  updatedAt_ptBR: {
+    type:String,
+    default: '',
     required: false,
   },
 });
@@ -39,14 +53,14 @@ commonSchema.set('toJSON', {
 });
 
 // https://stackoverflow.com/a/54453990
-commonSchema.virtual('createdAt_ptBR').get(function() {
-  const doc = this;
-  return new Date(doc.createdAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
-});
-commonSchema.virtual('updatedAt_ptBR').get(function() {
-  const doc = this;
-  return new Date(doc.updatedAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
-});
+// commonSchema.virtual('createdAt_ptBR').get(function() {
+//   const doc = this;
+//   return new Date(doc.createdAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+// });
+// commonSchema.virtual('updatedAt_ptBR').get(function() {
+//   const doc = this;
+//   return new Date(doc.updatedAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+// });
 
 module.exports = {
   commonSchema,
