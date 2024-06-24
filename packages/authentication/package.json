@@ -1,7 +1,7 @@
 {
   "name": "@leonardosarmentocastro/authentication",
   "description": "authentication",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "exports": "./index.js",
   "main": "./index.js",
   "type": "module",
@@ -25,8 +25,8 @@
   "author": "leonardosarmentocastro",
   "license": "ISC",
   "dependencies": {
-    "@leonardosarmentocastro/crud": "^2.4.2",
-    "@leonardosarmentocastro/database": "^2.0.0",
+    "@leonardosarmentocastro/crud": "^2.4.5",
+    "@leonardosarmentocastro/database": "^2.4.5",
     "@leonardosarmentocastro/i18n": "^2.0.0",
     "@leonardosarmentocastro/server": "^2.0.0",
     "@leonardosarmentocastro/validate": "^2.1.3",
